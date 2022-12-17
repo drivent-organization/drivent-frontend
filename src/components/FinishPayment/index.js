@@ -7,17 +7,19 @@ export default function FinishPaymentScreen() {
         Ingresso escolhido
       </StyledTypography>
       <ChoosenTicket>
-        
         <StyledCard variant="subtitle2" color="textPrimary">
           Presencial + Com Hotel
         </StyledCard>
         <StyledCard variant="body2" color="textSecondary">
           R$ 600
-        </StyledCard >
+        </StyledCard>
       </ChoosenTicket>
       <StyledTypography variant="subtitle1" color="textSecondary">
         Pagamento
       </StyledTypography>
+      <Button>
+        <StyledCard variant="subtitle2">FINALIZAR PAGAMENTO</StyledCard >
+      </Button>
     </>
   );
 }
@@ -28,6 +30,18 @@ const StyledTypography = styled(Typography)`
 
 const StyledCard = styled(Typography)`
   margin: 1px !important;
+`;
+
+const Button = styled.div`
+  background-color: #e0e0e0;
+  border-radius: 4px;
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.25);
+  padding: 10px;
+  width: 16vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
 `;
 
 const ChoosenTicket = styled.div`
