@@ -1,8 +1,9 @@
 import styled from 'styled-components';
 import Typography from '@material-ui/core/Typography';
-import { hotel } from './mockData';
 import { IoPersonOutline, IoPerson } from 'react-icons/io5';
 import { useState } from 'react';
+import Button from '../Form/Button';
+import useRooms from '../../hooks/api/useRooms';
 
 function Room({ vacancies, bookings, name }) {
   const free = [];
@@ -12,12 +13,21 @@ function Room({ vacancies, bookings, name }) {
   for (let i = 0; i < bookings; i++) occupied.push(i);
 
   const [selected, setSelected] = useState(false);
-  const handleClick = (vacancies) => {
-    if (vacancies !== 0) setSelected(!selected);
+
+  const handleClick = (e) => {
+    if (vacancies === 0) return;
+
+    /*  const selectedRoom = document.querySelector('.selected');
+    if (selectedRoom !== null) {
+      selectedRoom.classList.remove('selected');
+    } 
+    console.log(selectedRoom);*/
+
+    setSelected(!selected);
   };
 
   return (
-    <StyledRoom onClick={() => handleClick(vacancies)} selected={selected} vacancies={vacancies}>
+    <StyledRoom onClick={(e) => handleClick(e)} selected={selected} vacancies={vacancies}>
       <em>{name}</em>
       <span>
         {selected && (
@@ -38,14 +48,17 @@ function Room({ vacancies, bookings, name }) {
 }
 
 export default function ChooseRoom() {
+  const { hotelWithRooms } = useRooms();
+
   return (
     <>
       <StyledTypography variant="subtitle1">Ótima pedida! Agora escolha seu quarto:</StyledTypography>
       <Container>
-        {hotel.Rooms.map((room) => (
+        {hotelWithRooms?.Rooms.map((room) => (
           <Room key={room.id} bookings={room.Booking.length} vacancies={room.vacancies} name={room.name} />
         ))}
       </Container>
+      <Button type="submit" /* disabled={} */>RESERVAR QUARTO</Button>
     </>
   );
 }
@@ -60,6 +73,11 @@ const Container = styled.div`
   justify-content: space-between;
   column-gap: 1rem;
   flex-wrap: wrap;
+  margin-bottom: 46px;
+
+  /* .selected {
+    background-color: #ffeed2;
+  } */
 
   @media (max-width: 797px) {
     justify-content: center;
@@ -78,6 +96,7 @@ const StyledRoom = styled.div`
   margin-bottom: 10px;
   opacity: 1;
   background-color: transparent;
+  cursor: pointer;
 
   > span {
     font-size: 22px;
