@@ -1,10 +1,41 @@
 import styled from 'styled-components';
 import Typography from '@material-ui/core/Typography';
 import { hotel } from './mockData';
-import { BiUser } from 'react-icons/bi';
+import { IoPersonOutline, IoPerson } from 'react-icons/io5';
 import { useState } from 'react';
-import { useEffect } from 'react';
-import { useLayoutEffect } from 'react';
+
+function Room({ vacancies, bookings, name }) {
+  const free = [];
+  for (let i = 0; i < vacancies; i++) free.push(i);
+
+  const occupied = [];
+  for (let i = 0; i < bookings; i++) occupied.push(i);
+
+  const [selected, setSelected] = useState(false);
+  const handleClick = (vacancies) => {
+    if (vacancies !== 0) setSelected(!selected);
+  };
+
+  return (
+    <StyledRoom onClick={() => handleClick(vacancies)} selected={selected} vacancies={vacancies}>
+      <em>{name}</em>
+      <span>
+        {selected && (
+          <>
+            {free.slice(0, -1).map((i) => (
+              <IoPersonOutline key={i} />
+            ))}
+            <IoPerson fill="#FF4791" />
+          </>
+        )}
+        {!selected && free.map((i) => <IoPersonOutline key={i} />)}
+        {occupied.map((i) => (
+          <IoPerson key={i} />
+        ))}
+      </span>
+    </StyledRoom>
+  );
+}
 
 export default function ChooseRoom() {
   return (
@@ -12,25 +43,7 @@ export default function ChooseRoom() {
       <StyledTypography variant="subtitle1">Ótima pedida! Agora escolha seu quarto:</StyledTypography>
       <Container>
         {hotel.Rooms.map((room) => (
-          <Room>
-            <em>{room.name}</em>
-            {room.capacity === 1 ? (
-              <span>
-                <BiUser />
-              </span>
-            ) : room.capacity === 2 ? (
-              <span>
-                <BiUser />
-                <BiUser />
-              </span>
-            ) : (
-              <span>
-                <BiUser />
-                <BiUser />
-                <BiUser />
-              </span>
-            )}
-          </Room>
+          <Room key={room.id} bookings={room.Booking.length} vacancies={room.vacancies} name={room.name} />
         ))}
       </Container>
     </>
@@ -40,21 +53,20 @@ export default function ChooseRoom() {
 const StyledTypography = styled(Typography)`
   margin-bottom: 20px !important;
   color: #8e8e8e;
-  // background-color: #bab8de78;
 `;
 
 const Container = styled.div`
   display: flex;
   justify-content: space-between;
+  column-gap: 1rem;
   flex-wrap: wrap;
-  //background-color: #95424263;
 
-  /*  @media (max-width: 600px) {
-  
-  }  */
+  @media (max-width: 797px) {
+    justify-content: center;
+  }
 `;
 
-const Room = styled.div`
+const StyledRoom = styled.div`
   width: 190px;
   height: 45px;
   display: flex;
@@ -63,10 +75,25 @@ const Room = styled.div`
   padding: 0 16px;
   border: 1px solid #cecece;
   border-radius: 10px;
-  //background-color: #64678363;
   margin-bottom: 10px;
+  opacity: 1;
+  background-color: transparent;
 
   > span {
     font-size: 22px;
   }
+
+  ${({ vacancies, selected }) => {
+    if (vacancies === 0) {
+      return `
+        opacity: 0.6;
+        background-color: #E9E9E9;
+      `;
+    }
+    if (selected) {
+      return `
+        background-color: #FFEED2;
+      `;
+    }
+  }}
 `;

@@ -6,6 +6,7 @@ export const hotel = {
       capacity: 2,
       hotelId: 1,
       vacancies: 0,
+      Booking: [{ id: 1 }, { id: 2 }],
     },
     {
       id: 2,
@@ -13,6 +14,7 @@ export const hotel = {
       capacity: 1,
       hotelId: 1,
       vacancies: 1,
+      Booking: [],
     },
     {
       id: 3,
@@ -20,6 +22,7 @@ export const hotel = {
       capacity: 3,
       hotelId: 1,
       vacancies: 1,
+      Booking: [{ id: 3 }, { id: 4 }],
     },
     {
       id: 4,
@@ -27,13 +30,15 @@ export const hotel = {
       capacity: 1,
       hotelId: 1,
       vacancies: 0,
+      Booking: [{ id: 1 }],
     },
     {
       id: 5,
       name: '105',
       capacity: 2,
       hotelId: 1,
-      vacancies: 1,
+      vacancies: 2,
+      Booking: [],
     },
     {
       id: 6,
@@ -41,13 +46,15 @@ export const hotel = {
       capacity: 1,
       hotelId: 1,
       vacancies: 1,
+      Booking: [],
     },
     {
       id: 7,
       name: '107',
-      capacity: 1,
+      capacity: 2,
       hotelId: 1,
       vacancies: 1,
+      Booking: [],
     },
     {
       id: 8,
@@ -55,6 +62,7 @@ export const hotel = {
       capacity: 1,
       hotelId: 1,
       vacancies: 1,
+      Booking: [],
     },
     {
       id: 9,
@@ -62,6 +70,7 @@ export const hotel = {
       capacity: 1,
       hotelId: 1,
       vacancies: 1,
+      Booking: [],
     },
     {
       id: 10,
@@ -69,6 +78,7 @@ export const hotel = {
       capacity: 1,
       hotelId: 1,
       vacancies: 1,
+      Booking: [],
     },
     {
       id: 11,
@@ -76,6 +86,7 @@ export const hotel = {
       capacity: 1,
       hotelId: 1,
       vacancies: 1,
+      Booking: [],
     },
     {
       id: 12,
@@ -83,6 +94,7 @@ export const hotel = {
       capacity: 1,
       hotelId: 1,
       vacancies: 1,
+      Booking: [],
     },
     {
       id: 13,
@@ -90,6 +102,7 @@ export const hotel = {
       capacity: 1,
       hotelId: 1,
       vacancies: 1,
+      Booking: [],
     },
     {
       id: 14,
@@ -97,6 +110,7 @@ export const hotel = {
       capacity: 1,
       hotelId: 1,
       vacancies: 1,
+      Booking: [],
     },
     {
       id: 15,
@@ -104,6 +118,7 @@ export const hotel = {
       capacity: 1,
       hotelId: 1,
       vacancies: 1,
+      Booking: [],
     },
     {
       id: 16,
@@ -111,6 +126,7 @@ export const hotel = {
       capacity: 1,
       hotelId: 1,
       vacancies: 1,
+      Booking: [],
     },
   ],
 };
