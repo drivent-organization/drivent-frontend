@@ -1,5 +1,7 @@
 import Typography from '@material-ui/core/Typography';
 import styled from 'styled-components';
+import PaymentForm from './PaymentForm';
+
 export default function FinishPaymentScreen() {
   return (
     <>
@@ -17,8 +19,9 @@ export default function FinishPaymentScreen() {
       <StyledTypography variant="subtitle1" color="textSecondary">
         Pagamento
       </StyledTypography>
+      <PaymentForm />
       <Button>
-        <StyledCard variant="subtitle2">FINALIZAR PAGAMENTO</StyledCard >
+        <StyledCard variant="subtitle2">FINALIZAR PAGAMENTO</StyledCard>
       </Button>
     </>
   );
