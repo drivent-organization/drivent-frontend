@@ -7,24 +7,24 @@ import useRooms from '../../hooks/api/useRooms';
 import { toast } from 'react-toastify';
 import useBooking from '../../hooks/api/useBooking';
 
-function Room({ vacancies, bookings, name, id, roomState, setRoomState, setRoomId, position }) {
+function Room({ vacancies, bookings, name, id, roomState, setRoomState, setRoomId, currIndex }) {
   const free = [];
   for (let i = 0; i < vacancies; i++) free.push(i);
 
   const occupied = [];
   for (let i = 0; i < bookings; i++) occupied.push(i);
 
-  function handleClick(e) {
+  function handleClick() {
     if (vacancies === 0) return;
 
-    const selectedRoomIndex = roomState.findIndex((state) => state === true);
-    if (selectedRoomIndex !== -1) roomState[selectedRoomIndex] = false;
+    const prevSelectedIndex = roomState.findIndex((state) => state === true);
+    if (prevSelectedIndex !== -1) roomState[prevSelectedIndex] = false;
 
-    if (selectedRoomIndex === position) {
-      roomState[position] = false;
+    if (prevSelectedIndex === currIndex) {
+      roomState[currIndex] = false;
       setRoomId(0);
     } else {
-      roomState[position] = true;
+      roomState[currIndex] = true;
       setRoomId(id);
     }
 
@@ -32,10 +32,10 @@ function Room({ vacancies, bookings, name, id, roomState, setRoomState, setRoomI
   }
 
   return (
-    <StyledRoom onClick={handleClick} selected={roomState[position]} vacancies={vacancies}>
+    <StyledRoom onClick={handleClick} selected={roomState[currIndex]} vacancies={vacancies}>
       <em>{name}</em>
       <span>
-        {roomState[position] && (
+        {roomState[currIndex] && (
           <>
             {free.slice(0, -1).map((i) => (
               <IoPersonOutline key={i} />
@@ -43,7 +43,7 @@ function Room({ vacancies, bookings, name, id, roomState, setRoomState, setRoomI
             <IoPerson fill="#FF4791" />
           </>
         )}
-        {!roomState[position] && free.map((i) => <IoPersonOutline key={i} />)}
+        {!roomState[currIndex] && free.map((i) => <IoPersonOutline key={i} />)}
         {occupied.map((i) => (
           <IoPerson key={i} />
         ))}
@@ -52,12 +52,11 @@ function Room({ vacancies, bookings, name, id, roomState, setRoomState, setRoomI
   );
 }
 
-export default function ChooseRoom() {
+export default function ChooseRoom({ setIsBooked }) {
   const { hotelWithRooms } = useRooms();
-  const [roomId, setRoomId] = useState(0);
-  const [bookingId, setBookingId] = useState(0);
   const { booking, bookingLoading } = useBooking();
 
+  const [roomId, setRoomId] = useState(0);
   const [roomState, setRoomState] = useState([]);
 
   useEffect(() => {
@@ -72,13 +71,12 @@ export default function ChooseRoom() {
       if (roomId === 0) return;
 
       const id = await booking({ roomId });
-      setBookingId(id);
+      setIsBooked(id);
       toast('Reserva realizada com sucesso!');
     } catch (err) {
       toast('Não foi possível fazer a reserva!');
     }
   }
-  console.log(roomId);
 
   return (
     <>
@@ -92,7 +90,7 @@ export default function ChooseRoom() {
             name={room.name}
             id={room.id}
             setRoomId={setRoomId}
-            position={index}
+            currIndex={index}
             roomState={roomState}
             setRoomState={setRoomState}
           />
@@ -139,7 +137,6 @@ const StyledRoom = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-
   padding: 0 16px;
   border: 1px solid #cecece;
   border-radius: 10px;

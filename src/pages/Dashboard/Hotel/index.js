@@ -1,5 +1,8 @@
 import ChooseRoom from '../../../components/ChooseRoom';
+import useLocalStorage from '../../../hooks/useLocalStorage';
 
 export default function Hotel() {
-  return <ChooseRoom />;
+  const [isBooked, setIsBooked] = useLocalStorage('bookingData', null);
+
+  return <>{isBooked ? '' : <ChooseRoom setIsBooked={setIsBooked} />}</>;
 }
