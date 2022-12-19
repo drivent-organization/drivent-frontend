@@ -3,6 +3,7 @@ import Cards from 'react-credit-cards';
 import 'react-credit-cards/es/styles-compiled.css';
 import styled from 'styled-components';
 import Typography from '@material-ui/core/Typography';
+import Button from '../Form/Button';
 
 export default class PaymentForm extends React.Component {
   state = {
@@ -25,51 +26,61 @@ export default class PaymentForm extends React.Component {
 
   render() {
     return (
-      <Payment>
-        <Cards
-          cvc={this.state.cvc}
-          expiry={this.state.expiry}
-          focused={this.state.focus}
-          name={this.state.name}
-          number={this.state.number}
-        />
-
-        <form>
-          <input
-            type="tel"
-            name="number"
-            placeholder="Card Number"
-            onChange={this.handleInputChange}
-            onFocus={this.handleInputFocus}
+      <>
+        <Payment>
+          <Cards
+            cvc={this.state.cvc}
+            expiry={this.state.expiry}
+            focused={this.state.focus}
+            name={this.state.name}
+            number={this.state.number}
           />
-          <StyledCard variant="subtitle2" color="textSecondary">
-            E.g: 49..., 51..., 36..., 37...
-          </StyledCard>
-          <input
-            type="tel"
-            name="name"
-            placeholder="Name"
-            onChange={this.handleInputChange}
-            onFocus={this.handleInputFocus}
-          />
-          <DisplayFlex>
-            <input
-              type="tel"
-              name="expiry"
-              placeholder="Valid Thru"
-              onChange={this.handleInputChange}
-              onFocus={this.handleInputFocus}
-            />
-            <input
-              type="tel"
-              name="cvc"
-              placeholder="CVC"
-              onChange={this.handleInputChange}
-              onFocus={this.handleInputFocus}
-            />
-          </DisplayFlex>
-        </form>
-      </Payment>
+          <FormWrapper>
+            <InputWrapper>
+              <input
+                type="tel"
+                name="number"
+                placeholder="Card Number"
+                onChange={this.handleInputChange}
+                onFocus={this.handleInputFocus}
+              />
+              <StyledCard variant="subtitle2" color="textSecondary">
+                E.g: 49..., 51..., 36..., 37...
+              </StyledCard>
+            </InputWrapper>
+            <InputWrapper>
+              <input
+                type="tel"
+                name="name"
+                placeholder="Name"
+                onChange={this.handleInputChange}
+                onFocus={this.handleInputFocus}
+              />
+            </InputWrapper>
+            <DisplayFlex>
+              <InputWrapper>
+                <input
+                  type="tel"
+                  name="expiry"
+                  placeholder="Valid Thru"
+                  onChange={this.handleInputChange}
+                  onFocus={this.handleInputFocus}
+                />
+              </InputWrapper>
+              <InputWrapper>
+                <input
+                  type="tel"
+                  name="cvc"
+                  placeholder="CVC"
+                  onChange={this.handleInputChange}
+                  onFocus={this.handleInputFocus}
+                />
+              </InputWrapper>
+            </DisplayFlex>
+          </FormWrapper>
+        </Payment>
+        <Button type="submit">FINALIZAR PAGAMENTO</Button>
+      </>
     );
   }
 }
@@ -91,17 +102,35 @@ const Payment = styled.div`
   align-items: center;
   justify-content: space-around;
   margin: 10px;
+`;
 
-  form {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding: 3vh !important;
-    margin: 10px;
-    input {
-      margin-bottom: 5px;
-      padding: 8px;
-      font-size: 15px;
+export const FormWrapper = styled.form`
+  display: flex;
+  width: 100%;
+  flex-wrap: wrap;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 3vh !important;
+  > div {
+    width: calc(50% - 20px);
+    margin: 0 10px 0 0;
+  }
+
+  @media (max-width: 600px) {
+    > div {
+      width: 100%;
+      padding-left: 0px !important;
     }
+  }
+`;
+const InputWrapper = styled.div`
+  > div {
+    width: 100%;
+  }
+  input {
+    margin-bottom: 5px;
+    padding: 8px;
+    font-size: 15px;
   }
 `;
