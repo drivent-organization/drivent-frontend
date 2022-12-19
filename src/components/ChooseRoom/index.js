@@ -1,11 +1,13 @@
 import styled from 'styled-components';
 import Typography from '@material-ui/core/Typography';
 import { IoPersonOutline, IoPerson } from 'react-icons/io5';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Button from '../Form/Button';
 import useRooms from '../../hooks/api/useRooms';
+import { toast } from 'react-toastify';
+import useBooking from '../../hooks/api/useBooking';
 
-function Room({ vacancies, bookings, name }) {
+function Room({ vacancies, bookings, name, id, setRoomId /* , selected, setSelected */ }) {
   const free = [];
   for (let i = 0; i < vacancies; i++) free.push(i);
 
@@ -25,6 +27,11 @@ function Room({ vacancies, bookings, name }) {
 
     setSelected(!selected);
   };
+
+  useEffect(() => {
+    if (selected) setRoomId(id);
+    else setRoomId(0);
+  }, [selected]);
 
   return (
     <StyledRoom onClick={(e) => handleClick(e)} selected={selected} vacancies={vacancies}>
@@ -49,16 +56,47 @@ function Room({ vacancies, bookings, name }) {
 
 export default function ChooseRoom() {
   const { hotelWithRooms } = useRooms();
+  const [roomId, setRoomId] = useState(0);
+  const [bookingId, setBookingId] = useState(0);
+  const { booking, bookingLoading } = useBooking();
 
+  // const [selected, setSelected] = useState(Array(hotelWithRooms.Rooms.length).fill(false));
+
+  async function submit(event) {
+    event.preventDefault();
+
+    try {
+      if (roomId !== 0) {
+        const id = await booking({ roomId });
+        setBookingId(id);
+        toast('Reserva realizada com sucesso!');
+      }
+    } catch (err) {
+      toast('Não foi possível fazer a reserva!');
+    }
+  }
+
+  //console.log(roomId, bookingId);
   return (
     <>
       <StyledTypography variant="subtitle1">Ótima pedida! Agora escolha seu quarto:</StyledTypography>
       <Container>
         {hotelWithRooms?.Rooms.map((room) => (
-          <Room key={room.id} bookings={room.Booking.length} vacancies={room.vacancies} name={room.name} />
+          <Room
+            key={room.id}
+            bookings={room.Booking.length}
+            vacancies={room.vacancies}
+            name={room.name}
+            id={room.id}
+            setRoomId={setRoomId}
+            /*   selected={selected}
+            setSelected={setSelected} */
+          />
         ))}
       </Container>
-      <Button type="submit" /* disabled={} */>RESERVAR QUARTO</Button>
+      <Button onClick={submit} disabled={bookingLoading}>
+        RESERVAR QUARTO
+      </Button>
     </>
   );
 }
@@ -69,18 +107,25 @@ const StyledTypography = styled(Typography)`
 `;
 
 const Container = styled.div`
-  display: flex;
-  justify-content: space-between;
+  width: max-content;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  justify-content: center;
   column-gap: 1rem;
   flex-wrap: wrap;
-  margin-bottom: 46px;
+  margin-bottom: 30px;
 
-  /* .selected {
-    background-color: #ffeed2;
-  } */
+  @media (max-width: 1024px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
 
-  @media (max-width: 797px) {
-    justify-content: center;
+  @media (max-width: 810px) {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  @media (max-width: 430px) {
+    width: auto;
+    display: flex;
   }
 `;
 
@@ -90,6 +135,7 @@ const StyledRoom = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+
   padding: 0 16px;
   border: 1px solid #cecece;
   border-radius: 10px;
