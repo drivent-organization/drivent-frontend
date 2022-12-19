@@ -7,18 +7,23 @@ export default function PaymentConfirmation() {
       <AiFillCheckCircle size="15%" color="#36B853" />
 
       <Display>
-        <StyledCard variant="subtitle1" color="textPrimary">
+        <StyledTitle variant="subtitle1" color="textPrimary">
           Pagamento confirmado!
-        </StyledCard>
-        <StyledCard variant="body2" color="textSecondary">
+        </StyledTitle>
+        <StyledSubTitle variant="body2" color="textPrimary">
           Prossiga para escolha de hospedagem e atividades
-        </StyledCard>
+        </StyledSubTitle>
       </Display>
     </Confirmation>
   );
 }
 
-const StyledCard = styled(Typography)`
+const StyledTitle = styled(Typography)`
+  
+  font-weight: bold !important;
+`;
+
+const StyledSubTitle = styled(Typography)`
   margin: 1px !important;
 `;
 
