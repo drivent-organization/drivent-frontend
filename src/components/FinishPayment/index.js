@@ -1,8 +1,8 @@
 import Typography from '@material-ui/core/Typography';
 import styled from 'styled-components';
-//import PaymentForm from './PaymentForm';
+import PaymentForm from './PaymentForm';
 import ChoosenTicket from './ChoosenTicket';
-import PaymentConfirmation from './PaymentConfirmation';
+//import PaymentConfirmation from './PaymentConfirmation';
 
 export default function FinishPaymentScreen() {
   return (
@@ -15,11 +15,11 @@ export default function FinishPaymentScreen() {
       <StyledTypography variant="subtitle1" color="textSecondary">
         Pagamento
       </StyledTypography>
-      <PaymentConfirmation />
+      <PaymentForm />
     </>
   );
 }
 
 const StyledTypography = styled(Typography)`
-  margin-bottom: 20px !important;
+  margin-bottom: 8px !important;
 `;
