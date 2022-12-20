@@ -26,6 +26,16 @@ export default function PaymentForm() {
     });
   }
 
+  function payTicket(payment) {
+    setPayment({
+      cvc: '',
+      expiry: '',
+      focus: '',
+      name: '',
+      number: '',
+    });
+  }
+
   return (
     <>
       <Payment>
@@ -50,7 +60,9 @@ export default function PaymentForm() {
           </DisplayFlex>
         </FormWrapper>
       </Payment>
-      <Button type="submit">FINALIZAR PAGAMENTO</Button>
+      <Button type="submit" onClick={() => payTicket(payment)}>
+        FINALIZAR PAGAMENTO
+      </Button>
     </>
   );
 }
