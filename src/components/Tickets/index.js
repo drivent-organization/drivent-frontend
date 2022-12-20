@@ -33,7 +33,7 @@ export default function Tickets() {
 
   return (
     <StyledTicketOptions>
-      <h3>Ingresso e Pagamento</h3>
+      
       <p>Primeiro, escolha sua modalidade de ingresso</p>
       <CenterTickets>
         <PresencialBox

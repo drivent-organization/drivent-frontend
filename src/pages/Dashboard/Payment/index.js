@@ -3,6 +3,8 @@ import styled from 'styled-components';
 
 import FinishPayment from '../../../components/FinishPayment';
 
+import Tickets from '../../../components/Tickets';
+
 export default function Payment() {
   return (
     <>
