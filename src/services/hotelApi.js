@@ -1,8 +1,15 @@
 import api from './api';
 
-export async function getHotelWithRooms(token) {
-  //TODO tirar o mock da url
-  const response = await api.get('/hotels/3', {
+export async function getHotelsData(token) {
+  return api.get('/hotels', {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+}
+
+export async function getHotelWithRooms(id, token) {
+  const response = await api.get(`/hotels/${id}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
