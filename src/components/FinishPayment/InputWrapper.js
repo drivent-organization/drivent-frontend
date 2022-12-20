@@ -4,7 +4,7 @@ export const InputWrapper = styled.div`
   > div {
     width: 100%;
   }
-  input {
+  > input {
     margin-bottom: 10px;
     padding: 10px;
     font-size: 16px;
