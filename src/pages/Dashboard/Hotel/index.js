@@ -1,13 +1,13 @@
 import useToken from '../../../hooks/useToken';
 import { getHotelsData } from '../../../services/hotelApi';
 import { useState, useEffect } from 'react';
-import styled from 'styled-components';
-import Typography from '@material-ui/core/Typography';
+import HotelDatas from '../../../components/HotelDatas';
 
 export default function Hotel() {
   const token = useToken();
   const [hotelMessage, setHotelMessage] = useState('');
   const [hotels, setHotels] = useState([]);
+
   function loadHotelDatas() {
     const promise = getHotelsData(token);
     promise.then((answer) => {
@@ -29,67 +29,3 @@ export default function Hotel() {
 
   return <HotelDatas hotelMessage={hotelMessage} hotels={hotels} />;
 }
-
-function HotelDatas({ hotelMessage, hotels }) {
-  return (
-    <>
-      <StyledTypography variant="h4">Escolha de hotel e quarto</StyledTypography>
-      <Container>
-        {hotels.length === 0 ? (
-          <HotelMessage variant="subtitle1" color="textSecondary">
-            {hotelMessage}
-          </HotelMessage>
-        ) : (
-          hotels.map((hotel, index) => <HotelEntity hotel={hotel} key={index} />)
-        )}
-      </Container>
-    </>
-  );
-}
-
-function HotelEntity({ hotel, key }) {
-  return (
-    <>
-      <HotelBox>
-        <img src={hotel.image} />
-        <HotelName variant="subtitle1">{hotel.name}</HotelName>
-      </HotelBox>
-    </>
-  );
-}
-
-const StyledTypography = styled(Typography)`
-  margin-bottom: 20px !important;
-`;
-
-const HotelMessage = styled(Typography)`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 70%;
-  word-break: break-all;
-`;
-
-const HotelName = styled(Typography)``;
-
-const Container = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-`;
-
-const HotelBox = styled.div`
-  width: 200px;
-  height: 264px;
-  background-color: #ebebeb;
-  border-radius: 10px;
-  margin-right: 20px;
-  padding: 10px;
-  img {
-    display: flex;
-    justify-content: center;
-    width: 180px;
-    height: 110px;
-    border-radius: 5px;
-    margin-bottom: 5px;
-  }
-`;
