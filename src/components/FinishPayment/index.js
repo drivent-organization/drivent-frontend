@@ -1,5 +1,4 @@
-import { useNavigate } from 'react-router-dom';
-import { useEffect, useState, useContext } from 'react';
+import { useEffect, useState } from 'react';
 import UnavailablePayment from './UnavailablePayment';
 import useTicket from '../../hooks/api/useTicket';
 import ChoosenTicket from './ChoosenTicket';
@@ -12,9 +11,10 @@ export default function FinishPaymentScreen() {
   useEffect(() => {
     if (ticket) {
       setTicketData({
+        ticketId: ticket.id,
         ticketName: ticket.TicketType.name,
         ticketPrice: ticket.TicketType.price,
-        status: ticket.TicketType.status,
+        status: ticket.status,
         includesHotel: ticket.TicketType.includesHotel,
         isRemote: ticket.TicketType.isRemote,
       });
