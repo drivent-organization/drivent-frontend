@@ -4,7 +4,7 @@ import Button from '../Form/Button';
 import { HotelBox, HotelName, Info, Content } from './HotelBoxWrapper';
 import { useState, useEffect } from 'react';
 
-export default function BookingData({ booking }) {
+export default function BookingData({ booking, setReqInfo, setShowRooms }) {
   const [capacity, setCapacity] = useState('');
   const [people, setPeople] = useState('');
 
@@ -17,6 +17,15 @@ export default function BookingData({ booking }) {
     if (booking.Room.bookings === 2) setPeople('Você e mais 1');
     if (booking.Room.bookings === 3) setPeople('Você e mais 2');
   }, []);
+
+  function updateBooking() {
+    setReqInfo({
+      hotelId: booking.Hotel.id,
+      type: 'update',
+      bookingId: booking.bookingId,
+    });
+    setShowRooms(true);
+  }
 
   return (
     <>
@@ -35,7 +44,7 @@ export default function BookingData({ booking }) {
           <Info detail={true}>{people}</Info>
         </Content>
       </HotelBox>
-      <Button>TROCAR DE QUARTO</Button>
+      <Button onClick={updateBooking}>TROCAR DE QUARTO</Button>
     </>
   );
 }

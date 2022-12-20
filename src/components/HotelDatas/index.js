@@ -8,26 +8,26 @@ import BookingData from './BookingData';
 
 export default function HotelDatas({ hotelMessage, hotels }) {
   const [isBooked, setIsBooked] = useLocalStorage('bookingData', null);
-  const [hotelId, setHotelId] = useState(0);
+  const [reqInfo, setReqInfo] = useState({ hotelId: 0, type: '', bookingId: 0 });
+  const [showRooms, setShowRooms] = useState(false);
 
   return (
     <>
-      {isBooked ? (
-        <BookingData booking={isBooked} />
-      ) : (
-        <>
-          <Container>
-            {hotels.length === 0 ? (
-              <HotelMessage variant="h6" color="textSecondary">
-                {hotelMessage}
-              </HotelMessage>
-            ) : (
-              hotels.map((hotel, index) => <ChooseHotel hotel={hotel} key={index} setHotelId={setHotelId} />)
-            )}
-            {hotelId === 0 ? '' : <ChooseRoom setIsBooked={setIsBooked} hotelId={hotelId} />}
-          </Container>
-        </>
+      {!isBooked && (
+        <Container>
+          {hotels.length === 0 ? (
+            <HotelMessage variant="h6" color="textSecondary">
+              {hotelMessage}
+            </HotelMessage>
+          ) : (
+            hotels.map((hotel, index) => (
+              <ChooseHotel hotel={hotel} key={index} setReqInfo={setReqInfo} setShowRooms={setShowRooms} />
+            ))
+          )}
+        </Container>
       )}
+      {showRooms && <ChooseRoom setIsBooked={setIsBooked} reqInfo={reqInfo} setShowRooms={setShowRooms} />}
+      {!showRooms && isBooked && <BookingData booking={isBooked} setReqInfo={setReqInfo} setShowRooms={setShowRooms} />}
     </>
   );
 }

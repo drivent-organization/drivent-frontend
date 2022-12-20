@@ -7,9 +7,9 @@ import { toast } from 'react-toastify';
 import useBooking from '../../hooks/api/useBooking';
 import Rooms from './Rooms';
 
-export default function ChooseRoom({ setIsBooked, hotelId }) {
-  const { hotelWithRooms } = useRooms(hotelId);
-  const { booking, bookingLoading } = useBooking();
+export default function ChooseRoom({ setIsBooked, reqInfo, setShowRooms }) {
+  const { hotelWithRooms } = useRooms(reqInfo.hotelId);
+  const { upsertBooking, bookingLoading } = useBooking(reqInfo.bookingId);
 
   const [roomId, setRoomId] = useState(0);
   const [roomState, setRoomState] = useState([]);
@@ -25,8 +25,9 @@ export default function ChooseRoom({ setIsBooked, hotelId }) {
     try {
       if (roomId === 0) return;
 
-      const id = await booking({ roomId });
-      setIsBooked(id);
+      const bookingData = await upsertBooking({ roomId, type: reqInfo.type });
+      setIsBooked(bookingData);
+      setShowRooms(false);
       toast('Reserva realizada com sucesso!');
     } catch (err) {
       toast('Não foi possível fazer a reserva!');
@@ -35,7 +36,9 @@ export default function ChooseRoom({ setIsBooked, hotelId }) {
 
   return (
     <>
-      <StyledTypography variant="h6">Ótima pedida! Agora escolha seu quarto:</StyledTypography>
+      <StyledTypography variant="h6">
+        {reqInfo.type === 'create' ? 'Ótima pedida! Agora escolha seu quarto:' : 'Escolha seu novo quarto:'}
+      </StyledTypography>
       <Container>
         {hotelWithRooms?.Rooms.map((room, index) => (
           <Rooms
@@ -51,9 +54,12 @@ export default function ChooseRoom({ setIsBooked, hotelId }) {
           />
         ))}
       </Container>
-      <Button onClick={submit} disabled={bookingLoading}>
-        RESERVAR QUARTO
-      </Button>
+      <ButtonBox>
+        <Button onClick={submit} disabled={bookingLoading}>
+          RESERVAR QUARTO
+        </Button>
+        {reqInfo.type === 'update' && <Button onClick={() => setShowRooms(false)}>CANCELAR</Button>}
+      </ButtonBox>
     </>
   );
 }
@@ -83,5 +89,16 @@ const Container = styled.div`
   @media (max-width: 430px) {
     width: auto;
     display: flex;
+  }
+`;
+
+const ButtonBox = styled.div`
+  display: flex;
+  column-gap: 2rem;
+  row-gap: 1rem;
+  flex-wrap: wrap;
+
+  @media (max-width: 434px) {
+    justify-content: center;
   }
 `;

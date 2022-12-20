@@ -18,12 +18,20 @@ export async function getHotelWithRooms(id, token) {
   return response.data;
 }
 
-export async function createBooking(body, token) {
-  const response = await api.post('/booking', body, {
+export async function upsertBooking({ data, token, bookingId }) {
+  const body = { roomId: data.roomId };
+  const headers = {
     headers: {
       Authorization: `Bearer ${token}`,
     },
-  });
+  };
+  let response;
+
+  if (data.type === 'create') {
+    response = await api.post('/booking', body, headers);
+  } else {
+    response = await api.put(`/booking/${bookingId}`, body, headers);
+  }
 
   return response.data;
 }
