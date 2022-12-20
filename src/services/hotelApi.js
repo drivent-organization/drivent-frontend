@@ -1,5 +1,13 @@
 import api from './api';
 
+export async function getHotelsData(token) {
+  return api.get('/hotels', {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+}
+
 export async function getHotelWithRooms(token) {
   const response = await api.get('/hotels/3', {
     headers: {
