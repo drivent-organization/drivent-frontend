@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { ChoosenTicketStyle } from './ChoosenTicketStyle';
 import PaymentConfirmation from './PaymentConfirmation';
 import PaymentForm from './PaymentForm';
-import { useState } from 'react';
+
 export default function ChoosenTicket({ ticketData }) {
   const { ticketPrice, includesHotel, isRemote, ticketId, status } = ticketData;
 

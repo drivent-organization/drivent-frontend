@@ -1,5 +1,4 @@
-import { useNavigate } from 'react-router-dom';
-import { useEffect, useState, useContext } from 'react';
+import { useEffect, useState } from 'react';
 import UnavailablePayment from './UnavailablePayment';
 import useTicket from '../../hooks/api/useTicket';
 import ChoosenTicket from './ChoosenTicket';
