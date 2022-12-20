@@ -8,8 +8,10 @@ import { FormWrapper } from './FormWrapper';
 import { InputWrapper } from './InputWrapper';
 import { DisplayFlex } from './DisplayFlex';
 import { useState } from 'react';
+import useSavePayment from '../../hooks/api/useSavePayment';
+import { toast } from 'react-toastify';
 
-export default function PaymentForm() {
+export default function PaymentForm({ ticketId }) {
   const [payment, setPayment] = useState({
     cvc: '',
     expiry: '',
@@ -17,7 +19,7 @@ export default function PaymentForm() {
     name: '',
     number: '',
   });
-
+  const { savePaymentLoading, savePayment } = useSavePayment();
   function handlePayment(e) {
     e.preventDefault();
     setPayment({
@@ -26,14 +28,31 @@ export default function PaymentForm() {
     });
   }
 
-  function payTicket(payment) {
-    setPayment({
-      cvc: '',
-      expiry: '',
-      focus: '',
-      name: '',
-      number: '',
-    });
+  async function payTicket(payment, ticketId) {
+    const body = {
+      ticketId: Number(ticketId),
+      cardData: {
+        issuer: String(1), //TODO
+        number: Number(payment.number),
+        name: payment.name,
+        expirationDate: payment.expiry,
+        cvv: Number(payment.cvc),
+      },
+    };
+
+    try {
+      await savePayment(body);
+      setPayment({
+        cvc: '',
+        expiry: '',
+        focus: '',
+        name: '',
+        number: '',
+      });
+      toast('Informações salvas com sucesso!');
+    } catch (err) {
+      toast('Não foi possível salvar suas informações!');
+    }
   }
 
   return (
@@ -60,7 +79,7 @@ export default function PaymentForm() {
           </DisplayFlex>
         </FormWrapper>
       </Payment>
-      <Button type="submit" onClick={() => payTicket(payment)}>
+      <Button type="submit" onClick={() => payTicket(payment, ticketId)} disabled={savePaymentLoading}>
         FINALIZAR PAGAMENTO
       </Button>
     </>

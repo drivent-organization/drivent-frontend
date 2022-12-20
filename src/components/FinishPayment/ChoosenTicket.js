@@ -5,7 +5,7 @@ import PaymentConfirmation from './PaymentConfirmation';
 import PaymentForm from './PaymentForm';
 import { useState } from 'react';
 export default function ChoosenTicket({ ticketData }) {
-  const { ticketPrice, includesHotel, isRemote } = ticketData;
+  const { ticketPrice, includesHotel, isRemote, ticketId, status } = ticketData;
 
   return (
     <>
@@ -23,7 +23,7 @@ export default function ChoosenTicket({ ticketData }) {
       <StyledTypography variant="subtitle1" color="textSecondary">
         Pagamento
       </StyledTypography>
-      {ticketData.status === 'PAID' ? <PaymentConfirmation /> : <PaymentForm />}
+      {status === 'PAID' ? <PaymentConfirmation /> : <PaymentForm ticketId={ticketId} />}
     </>
   );
 }

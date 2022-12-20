@@ -1,27 +1,7 @@
 import api from './api';
 
-export async function getPayment(token) {
-  const response = await api.get('/payment', {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-
-  return response.data;
-}
-
-export async function postPayment(token) {
-  const response = await api.post('/payment', {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-
-  return response.data;
-}
-
-export async function updatePayment(token) {
-  const response = await api.put('/payment', {
+export async function save(body, token) {
+  const response = await api.post('/payments/process', body, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
