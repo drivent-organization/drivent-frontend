@@ -1,10 +1,25 @@
+import { useEffect, useState } from 'react';
 import UnavailablePayment from './UnavailablePayment';
-//import AvailablePayment from './AvailablePayment';
+import useTicket from '../../hooks/api/useTicket';
+import ChoosenTicket from './ChoosenTicket';
 
 export default function FinishPaymentScreen() {
-  return (
-    <>
-      <UnavailablePayment />
-    </>
-  );
+  const { ticket } = useTicket();
+
+  const [ticketData, setTicketData] = useState({});
+
+  useEffect(() => {
+    if (ticket) {
+      setTicketData({
+        ticketId: ticket.id,
+        ticketName: ticket.TicketType.name,
+        ticketPrice: ticket.TicketType.price,
+        status: ticket.status,
+        includesHotel: ticket.TicketType.includesHotel,
+        isRemote: ticket.TicketType.isRemote,
+      });
+    }
+  }, [ticket]);
+
+  return <>{ticketData.length === 0 ? <UnavailablePayment /> : <ChoosenTicket ticketData={ticketData} />}</>;
 }

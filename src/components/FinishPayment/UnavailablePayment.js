@@ -15,6 +15,4 @@ const Styled = styled(Typography)`
   align-items: center;
   width: 100%;
   padding: 20% 5%;
-  
-  
 `;
