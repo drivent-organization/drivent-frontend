@@ -1,3 +1,5 @@
+import styled from 'styled-components';
+import Typography from '@material-ui/core/Typography';
 import useToken from '../../../hooks/useToken';
 import { getHotelsData } from '../../../services/hotelApi';
 import { useState, useEffect } from 'react';
@@ -27,5 +29,14 @@ export default function Hotel() {
     loadHotelDatas();
   }, []);
 
-  return <HotelDatas hotelMessage={hotelMessage} hotels={hotels} />;
+  return (
+    <>
+      <StyledTypography variant="h4">Escolha de hotel e quarto</StyledTypography>
+      <HotelDatas hotelMessage={hotelMessage} hotels={hotels} />
+    </>
+  );
 }
+
+const StyledTypography = styled(Typography)`
+  margin-bottom: 20px !important;
+`;

@@ -8,8 +8,8 @@ export async function getHotelsData(token) {
   });
 }
 
-export async function getHotelWithRooms(token) {
-  const response = await api.get('/hotels/3', {
+export async function getHotelWithRooms(id, token) {
+  const response = await api.get(`/hotels/${id}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -18,12 +18,20 @@ export async function getHotelWithRooms(token) {
   return response.data;
 }
 
-export async function createBooking(body, token) {
-  const response = await api.post('/booking', body, {
+export async function upsertBooking({ data, token, bookingId }) {
+  const body = { roomId: data.roomId };
+  const headers = {
     headers: {
       Authorization: `Bearer ${token}`,
     },
-  });
+  };
+  let response;
+
+  if (data.type === 'create') {
+    response = await api.post('/booking', body, headers);
+  } else {
+    response = await api.put(`/booking/${bookingId}`, body, headers);
+  }
 
   return response.data;
 }
