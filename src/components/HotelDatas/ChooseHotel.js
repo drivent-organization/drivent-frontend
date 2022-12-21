@@ -38,14 +38,6 @@ export default function ChooseHotel({ hotel, setReqInfo, setShowRooms, setHotelS
           <Info>Vagas disponíveis</Info>
           <Info detail={true}>{vacancies}</Info>
         </Content>
-        <Content>
-          <Info>Tipos de acomodação</Info>
-          <Info detail={true}>{accommodationType}</Info>
-        </Content>
-        <Content>
-          <Info>Vagas disponíveis</Info>
-          <Info detail={true}>{vacancies}</Info>
-        </Content>
       </HotelBox>
     </>
   );
