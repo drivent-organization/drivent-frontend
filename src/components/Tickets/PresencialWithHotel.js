@@ -1,52 +1,52 @@
 import styled from 'styled-components';
-import useToken from '../../hooks/useToken';
-import { postTicket, getTicketType } from '../../services/ticketApi';
-import { toast } from 'react-toastify';
 import { useState, useEffect } from 'react';
+import { toast } from 'react-toastify';
+import useToken from '../../hooks/useToken';
+import { getTicketType, postTicket } from '../../services/ticketApi';
 
-export default function OnlineChoice() {
-  const [ticketTypes, setTicketTypes] = useState();
+export default function PresencialWithHotel() {
+  const [ticketType, setTicketType] = useState();
   const token = useToken();
 
   useEffect(() => {
-    const onlineTicketTypeId = async() => {
+    const presentialWithHotel = async() => {
       try {
         const ticketTypeInfo = await getTicketType(token);
-        setTicketTypes(ticketTypeInfo);
+        setTicketType(ticketTypeInfo);
       } catch (error) {
         toast('Ops! Não foi possível encontrar o ingresso.');
       }
     };
-    onlineTicketTypeId();
+    presentialWithHotel();
   }, []);
 
-  async function ReservarIngressoOnline(e) {
+  async function ReservePresentialWithHotel(e) {
     e.preventDefault();
 
-    const onlineTicketTypeId = ticketTypes.find(({ price }) => price === 100);
-
+    const onlineTicketTypeId = ticketType.find(({ price }) => price === 600);
     const ticketTypeId = Number(onlineTicketTypeId.id);
+
     try {
       await postTicket(ticketTypeId, token);
       toast('Ticket Reservado com sucesso!');
     } catch (error) {
       toast('Ops! Não foi possível reservar o ingresso.');
     }
-  }
+  } 
 
   return (
-    <StyledOnlineChoice>
+    <StyledPresencialWithHotel>
       <p>
-        Fechado! O total ficou em <strong>R$ 100</strong>. Agora é só confirmar:
+        Fechado! O total ficou em <strong>R$ 600</strong>. Agora é só confirmar:
       </p>
       <div>
-        <p onClick={ReservarIngressoOnline}>RESERVAR INGRESSO</p>
+        <p onClick={ReservePresentialWithHotel}>RESERVAR INGRESSO</p>
       </div>
-    </StyledOnlineChoice>
+    </StyledPresencialWithHotel>
   );
 }
 
-const StyledOnlineChoice = styled.div`
+const StyledPresencialWithHotel = styled.div`
   margin-top: 44px;
 
   > p {

@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 import { useState } from 'react';
+import PresencialWithHotel from './PresencialWithHotel';
+import PresencialWithoutHotel from './PresencialWithoutHotel';
 
 export default function PresencialChoice() {
   const [withHotel, setWithHotel] = useState(false);
@@ -48,19 +50,22 @@ export default function PresencialChoice() {
           <p>+ R$ 350</p>
         </WithHotelBox>
       </CenterHotelChoice>
+      {withoutHotel ? <PresencialWithoutHotel /> : ''}
+      {withHotel ? <PresencialWithHotel /> : ''}
     </StyledPresencialChoice>
   );
 }
 
 const StyledPresencialChoice = styled.div`
-  margin-top: 44px;
-  p {
+    margin-top: 44px;
+  > p {
     font-family: 'Roboto';
     font-style: normal;
     font-weight: 400;
     font-size: 20px;
     line-height: 23px;
     color: #8e8e8e;
+    margin-bottom: 17px;
   }
 `;
 
@@ -79,7 +84,7 @@ const WithHotelBox = styled.div`
   align-items: center;
   margin-right: 24px;
 
-  h2 {
+  > h2 {
     font-family: 'Roboto';
     font-style: normal;
     font-weight: 400;
@@ -89,7 +94,7 @@ const WithHotelBox = styled.div`
     color: #454545;
   }
 
-  p {
+  > p {
     font-family: 'Roboto';
     font-style: normal;
     font-weight: 400;
@@ -111,7 +116,7 @@ const NoHotelBox = styled.div`
   align-items: center;
   margin-right: 24px;
 
-  h2 {
+  > h2 {
     font-family: 'Roboto';
     font-style: normal;
     font-weight: 400;
@@ -121,7 +126,7 @@ const NoHotelBox = styled.div`
     color: #454545;
   }
 
-  p {
+  > p {
     font-family: 'Roboto';
     font-style: normal;
     font-weight: 400;
