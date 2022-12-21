@@ -1,18 +1,38 @@
+import { useEffect } from 'react';
 import useRooms from '../../hooks/api/useRooms';
 import { HotelBox, HotelName, Info, Content } from './HotelBoxWrapper';
 
-export default function ChooseHotel({ hotel, setReqInfo, setShowRooms, reqInfo }) {
-  const { hotelWithRooms } = useRooms(hotel.id);
+export default function ChooseHotel({ hotel, setReqInfo, setShowRooms, setHotelSelected, hotelSelected, currIndex }) {
+  const { hotelWithRooms, getHotelWithRooms } = useRooms();
+
   const vacancies = calculateVacancies(hotelWithRooms);
   const accommodationType = nameAccommodationTypes(hotelWithRooms);
+
+  useEffect(() => {
+    async function getRooms() {
+      await getHotelWithRooms(hotel.id);
+    }
+
+    getRooms();
+  }, []);
+
   function handleClick() {
-    setReqInfo({ ...reqInfo, hotelId: hotel.id, type: 'create' });
+    const prevSelectedIndex = hotelSelected.findIndex((state) => state === true);
+    if (prevSelectedIndex !== -1) hotelSelected[prevSelectedIndex] = false;
+
+    hotelSelected[currIndex] = true;
+
+    setHotelSelected([...hotelSelected]);
+    setReqInfo({
+      hotelId: hotel.id,
+      type: 'create',
+    });
     setShowRooms(true);
   }
 
   return (
     <>
-      <HotelBox onClick={handleClick}>
+      <HotelBox onClick={handleClick} isSelected={hotelSelected[currIndex]}>
         <img src={hotel.image} alt="" />
         <HotelName variant="subtitle1">{hotel.name}</HotelName>
         <Content>

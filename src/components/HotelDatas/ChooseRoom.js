@@ -8,17 +8,21 @@ import useBooking from '../../hooks/api/useBooking';
 import Rooms from './Rooms';
 
 export default function ChooseRoom({ setIsBooked, reqInfo, setShowRooms }) {
-  const { hotelWithRooms } = useRooms(reqInfo.hotelId);
-
-  const { upsertBooking, bookingLoading } = useBooking(reqInfo.bookingId);
+  const { hotelWithRooms, getHotelWithRooms } = useRooms();
+  const { upsertBooking, bookingLoading } = useBooking();
 
   const [roomId, setRoomId] = useState(0);
   const [roomState, setRoomState] = useState([]);
 
   useEffect(() => {
+    async function getRooms() {
+      await getHotelWithRooms(reqInfo.hotelId);
+    }
+    getRooms();
+
     const states = new Array(hotelWithRooms?.Rooms.length).fill(false);
     setRoomState(states);
-  }, [hotelWithRooms, reqInfo.hotelId]);
+  }, [reqInfo.hotelId]);
 
   async function submit(event) {
     event.preventDefault();
@@ -26,7 +30,11 @@ export default function ChooseRoom({ setIsBooked, reqInfo, setShowRooms }) {
     try {
       if (roomId === 0) return;
 
-      const bookingData = await upsertBooking({ roomId, type: reqInfo.type });
+      const bookingData = await upsertBooking({
+        roomId,
+        type: reqInfo.type,
+        bookingId: reqInfo.bookingId,
+      });
       setIsBooked(bookingData);
       setShowRooms(false);
       toast('Reserva realizada com sucesso!');
