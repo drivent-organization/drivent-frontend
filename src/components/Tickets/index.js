@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { useState, useNavigate } from 'react';
+import { useState } from 'react';
 import OnlineChoice from './OnlineChoice';
 import PresencialChoice from './PresencialChoice';
 
@@ -33,7 +33,7 @@ export default function Tickets() {
 
   return (
     <StyledTicketOptions>
-      <h3>Ingresso e Pagamento</h3>
+      
       <p>Primeiro, escolha sua modalidade de ingresso</p>
       <CenterTickets>
         <PresencialBox
@@ -55,7 +55,7 @@ export default function Tickets() {
 }
 
 const StyledTicketOptions = styled.div`
-  h3 {
+ > h3 {
     margin-bottom: 37px;
     font-family: 'Roboto';
     font-style: normal;
@@ -65,7 +65,7 @@ const StyledTicketOptions = styled.div`
     color: #000000;
   }
 
-  p {
+  > p {
     margin-bottom: 17px;
     font-family: 'Roboto';
     font-style: normal;
@@ -91,7 +91,7 @@ const PresencialBox = styled.div`
   align-items: center;
   margin-right: 24px;
 
-  h2 {
+  > h2 {
     font-family: 'Roboto';
     font-style: normal;
     font-weight: 400;
@@ -101,7 +101,7 @@ const PresencialBox = styled.div`
     color: #454545;
   }
 
-  p {
+  > p {
     font-family: 'Roboto';
     font-style: normal;
     font-weight: 400;
@@ -122,7 +122,7 @@ const OnlineBox = styled.div`
   justify-content: center;
   align-items: center;
 
-  h2 {
+  > h2 {
     font-family: 'Roboto';
     font-style: normal;
     font-weight: 400;
@@ -132,7 +132,7 @@ const OnlineBox = styled.div`
     color: #454545;
   }
 
-  p {
+  > p {
     font-family: 'Roboto';
     font-style: normal;
     font-weight: 400;

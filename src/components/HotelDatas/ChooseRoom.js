@@ -14,9 +14,12 @@ export default function ChooseRoom({ setIsBooked, reqInfo, setShowRooms }) {
   const [roomId, setRoomId] = useState(0);
   const [roomState, setRoomState] = useState([]);
 
-  useEffect(async() => {
-    await getHotelWithRooms(reqInfo.hotelId);
-    
+  useEffect(() => {
+    async function getRooms() {
+      await getHotelWithRooms(reqInfo.hotelId);
+    }
+    getRooms();
+
     const states = new Array(hotelWithRooms?.Rooms.length).fill(false);
     setRoomState(states);
   }, [reqInfo.hotelId]);
@@ -27,10 +30,10 @@ export default function ChooseRoom({ setIsBooked, reqInfo, setShowRooms }) {
     try {
       if (roomId === 0) return;
 
-      const bookingData = await upsertBooking({ 
-        roomId, 
+      const bookingData = await upsertBooking({
+        roomId,
         type: reqInfo.type,
-        bookingId: reqInfo.bookingId 
+        bookingId: reqInfo.bookingId,
       });
       setIsBooked(bookingData);
       setShowRooms(false);

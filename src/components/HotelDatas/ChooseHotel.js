@@ -4,11 +4,16 @@ import { HotelBox, HotelName, Info, Content } from './HotelBoxWrapper';
 
 export default function ChooseHotel({ hotel, setReqInfo, setShowRooms, setHotelSelected, hotelSelected, currIndex }) {
   const { hotelWithRooms, getHotelWithRooms } = useRooms();
+
   const vacancies = calculateVacancies(hotelWithRooms);
   const accommodationType = nameAccommodationTypes(hotelWithRooms);
 
-  useEffect(async() => {
-    await getHotelWithRooms(hotel.id);
+  useEffect(() => {
+    async function getRooms() {
+      await getHotelWithRooms(hotel.id);
+    }
+
+    getRooms();
   }, []);
 
   function handleClick() {
