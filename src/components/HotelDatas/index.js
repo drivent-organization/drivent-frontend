@@ -21,7 +21,13 @@ export default function HotelDatas({ hotelMessage, hotels }) {
             </HotelMessage>
           ) : (
             hotels.map((hotel, index) => (
-              <ChooseHotel hotel={hotel} key={index} setReqInfo={setReqInfo} setShowRooms={setShowRooms} />
+              <ChooseHotel
+                hotel={hotel}
+                key={index}
+                setReqInfo={setReqInfo}
+                reqInfo={reqInfo}
+                setShowRooms={setShowRooms}
+              />
             ))
           )}
         </Container>

@@ -1,11 +1,11 @@
 import { HotelBox, HotelName } from './HotelBoxWrapper';
 
-export default function ChooseHotel({ hotel, setReqInfo, setShowRooms }) {
+export default function ChooseHotel({ hotel, setReqInfo, reqInfo, setShowRooms }) {
   function handleClick() {
-    setReqInfo({
-      hotelId: hotel.id,
-      type: 'create',
-    });
+    reqInfo.hotelId = hotel.id;
+    reqInfo.type = 'create';
+
+    setReqInfo({ ...reqInfo });
     setShowRooms(true);
   }
 
