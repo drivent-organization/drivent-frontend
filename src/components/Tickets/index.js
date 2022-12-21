@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { useState, useNavigate } from 'react';
+import { useState } from 'react';
 import OnlineChoice from './OnlineChoice';
 import PresencialChoice from './PresencialChoice';
 

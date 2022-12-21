@@ -3,7 +3,6 @@ import Typography from '@material-ui/core/Typography';
 import Button from '../Form/Button';
 import { HotelBox, HotelName, Info, Content } from './HotelBoxWrapper';
 import { useState, useEffect } from 'react';
-import useRooms from '../../hooks/api/useRooms';
 
 export default function BookingData({ booking, setReqInfo, setShowRooms }) {
   const [capacity, setCapacity] = useState('');

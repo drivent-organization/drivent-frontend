@@ -13,9 +13,7 @@ export default function OnlineChoice() {
       try {
         const ticketTypeInfo = await getTicketType(token);
         setTicketTypes(ticketTypeInfo);
-      } catch (error) {
-        console.log(error.message);
-      }
+      } catch (error) {}
     };
     onlineTicketTypeId();
   }, []);
