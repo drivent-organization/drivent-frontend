@@ -27,7 +27,6 @@ export default function Hotel() {
 
   useEffect(() => {
     loadHotelDatas();
-    console.log({ hotels });
   }, []);
 
   return (
