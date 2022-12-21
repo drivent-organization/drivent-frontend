@@ -8,6 +8,7 @@ export const HotelBox = styled.div`
   margin: 0 20px 50px 0px;
   padding: 15px;
   color: #343434;
+  cursor: ${({ booking }) => (booking ? 'default' : 'pointer')};
 
   > img {
     display: flex;
