@@ -1,13 +1,46 @@
 import styled from 'styled-components';
+import useToken from '../../hooks/useToken';
+import { postTicket, getTicketType } from '../../services/ticketApi';
+import { toast } from 'react-toastify';
+import { useState, useEffect } from 'react';
 
 export default function OnlineChoice() {
+  const [ticketTypes, setTicketTypes] = useState();
+  const token = useToken();
+
+  useEffect(() => {
+    const onlineTicketTypeId = async() => {
+      try {
+        const ticketTypeInfo = await getTicketType(token);
+        setTicketTypes(ticketTypeInfo);
+      } catch (error) {
+        console.log(error.message);
+      }
+    };
+    onlineTicketTypeId();
+  }, []);
+
+  async function ReservarIngressoOnline(e) {
+    e.preventDefault();
+
+    const onlineTicketTypeId = ticketTypes.find(({ price }) => price === 100);
+
+    const ticketTypeId = Number(onlineTicketTypeId.id);
+    try {
+      await postTicket(ticketTypeId, token);
+      toast('Ticket Reservado com sucesso!');
+    } catch (error) {
+      toast('Ops! Não foi possível reservar o ingresso.');
+    }
+  }
+
   return (
     <StyledOnlineChoice>
       <p>
         Fechado! O total ficou em <strong>R$ 100</strong>. Agora é só confirmar:
       </p>
       <div>
-        <p>RESERVAR INGRESSO</p>
+        <p onClick={ReservarIngressoOnline}>RESERVAR INGRESSO</p>
       </div>
     </StyledOnlineChoice>
   );
@@ -16,7 +49,7 @@ export default function OnlineChoice() {
 const StyledOnlineChoice = styled.div`
   margin-top: 44px;
 
-  p {
+  > p {
     font-family: 'Roboto';
     font-style: normal;
     font-weight: 400;
@@ -26,7 +59,7 @@ const StyledOnlineChoice = styled.div`
     margin-bottom: 17px;
   }
 
-  div {
+  > div {
     width: 162px;
     height: 37px;
     background: #e0e0e0;
@@ -35,7 +68,7 @@ const StyledOnlineChoice = styled.div`
     display: flex;
     justify-content: center;
 
-    p {
+    > p {
       font-family: 'Roboto';
       font-style: normal;
       font-weight: 400;
