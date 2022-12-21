@@ -8,8 +8,8 @@ export async function getHotelsData(token) {
   });
 }
 
-export async function getHotelWithRooms(id, token) {
-  const response = await api.get(`/hotels/${id}`, {
+export async function getHotelWithRooms(hotelId, token) {
+  const response = await api.get(`/hotels/${hotelId}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -18,7 +18,7 @@ export async function getHotelWithRooms(id, token) {
   return response.data;
 }
 
-export async function upsertBooking({ data, token, bookingId }) {
+export async function upsertBooking( data, token ) {
   const body = { roomId: data.roomId };
   const headers = {
     headers: {
@@ -30,7 +30,7 @@ export async function upsertBooking({ data, token, bookingId }) {
   if (data.type === 'create') {
     response = await api.post('/booking', body, headers);
   } else {
-    response = await api.put(`/booking/${bookingId}`, body, headers);
+    response = await api.put(`/booking/${data.bookingId}`, body, headers);
   }
 
   return response.data;
