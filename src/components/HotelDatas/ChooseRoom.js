@@ -9,6 +9,7 @@ import Rooms from './Rooms';
 
 export default function ChooseRoom({ setIsBooked, reqInfo, setShowRooms }) {
   const { hotelWithRooms } = useRooms(reqInfo.hotelId);
+
   const { upsertBooking, bookingLoading } = useBooking(reqInfo.bookingId);
 
   const [roomId, setRoomId] = useState(0);
@@ -17,7 +18,7 @@ export default function ChooseRoom({ setIsBooked, reqInfo, setShowRooms }) {
   useEffect(() => {
     const states = new Array(hotelWithRooms?.Rooms.length).fill(false);
     setRoomState(states);
-  }, [hotelWithRooms]);
+  }, [hotelWithRooms, reqInfo.hotelId]);
 
   async function submit(event) {
     event.preventDefault();
