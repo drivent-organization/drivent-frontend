@@ -6,7 +6,9 @@ export default function ChooseHotel({ hotel, setReqInfo, setShowRooms, reqInfo }
   const vacancies = calculateVacancies(hotelWithRooms);
   const accommodationType = nameAccommodationTypes(hotelWithRooms);
   function handleClick() {
-    setReqInfo({ ...reqInfo, hotelId: hotel.id, type: 'create' });
+    reqInfo.hotelId = hotel.id;
+    reqInfo.type = 'create';
+    setReqInfo({ ...reqInfo });
     setShowRooms(true);
   }
 
