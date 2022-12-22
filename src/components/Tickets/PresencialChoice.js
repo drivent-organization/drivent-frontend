@@ -1,138 +1,65 @@
 import styled from 'styled-components';
+import { Typography } from '@material-ui/core';
 import { useState } from 'react';
-import PresencialWithHotel from './PresencialWithHotel';
-import PresencialWithoutHotel from './PresencialWithoutHotel';
+import { Content, Box } from './TicketBoxWrapper';
+import Button from '../Form/Button';
 
-export default function PresencialChoice() {
-  const [withHotel, setWithHotel] = useState(false);
-  const [withoutHotel, setWithoutHotel] = useState(false);
+export default function PresencialChoice({ ticketInfo, setTicketTypeId, bookTicket, loading }) {
+  const [selected, setSelected] = useState([false, false]);
+  const [totalPrice, setTotalPrice] = useState(null);
 
-  const handleColorChangeWithHotel = () => {
-    if (withHotel === false) {
-      setWithHotel(true);
-    }
-    if (withHotel === true) {
-      setWithHotel(false);
-    }
-    if (withoutHotel === true) {
-      setWithoutHotel(false);
-    }
-  };
+  function handleClick(includesHotel, id, price) {
+    const prevSelectedIndex = selected.findIndex((state) => state === true);
+    if (prevSelectedIndex !== -1) selected[prevSelectedIndex] = false;
 
-  const handleColorChangeWithoutHotel = () => {
-    if (withoutHotel === false) {
-      setWithoutHotel(true);
+    if (includesHotel) {
+      selected[0] = true;
+      setTotalPrice(price);
+    } else {
+      selected[1] = true;
+      setTotalPrice(price);
     }
-    if (withoutHotel === true) {
-      setWithoutHotel(false);
-    }
-    if (withHotel === true) {
-      setWithHotel(false);
-    }
-  };
+    setTicketTypeId(id);
+    setSelected([...selected]);
+  }
 
   return (
-    <StyledPresencialChoice>
-      <p>Ótimo! Agora escolha sua modalidade de hospedagem</p>
-      <CenterHotelChoice>
-        <NoHotelBox
-          onClick={handleColorChangeWithoutHotel}
-          style={withoutHotel ? { background: '#FFEED2' } : { background: '' }}
-        >
-          <h2>Sem Hotel</h2>
-          <p>+ R$ 0</p>
-        </NoHotelBox>
-        <WithHotelBox
-          onClick={handleColorChangeWithHotel}
-          style={withHotel ? { background: '#FFEED2' } : { background: '' }}
-        >
-          <h2>Com Hotel</h2>
-          <p>+ R$ 350</p>
-        </WithHotelBox>
-      </CenterHotelChoice>
-      {withoutHotel ? <PresencialWithoutHotel /> : ''}
-      {withHotel ? <PresencialWithHotel /> : ''}
-    </StyledPresencialChoice>
+    <Container>
+      <StyledTypography variant="h6">Primeiro, escolha sua modalidade de ingresso</StyledTypography>
+      <Content withHotel={true}>
+        {ticketInfo.map((ticket) =>
+          ticket.includesHotel === true ? (
+            <Box onClick={() => handleClick(ticket.includesHotel, ticket.id, ticket.price)} selected={selected[0]}>
+              <h2>Com Hotel</h2>
+              <p>+ R$ 350</p>
+            </Box>
+          ) : (
+            <Box onClick={() => handleClick(ticket.includesHotel, ticket.id, ticket.price)} selected={selected[1]}>
+              <h2>Sem Hotel</h2>
+              <p>+ R$ 0</p>
+            </Box>
+          )
+        )}
+      </Content>
+      {(selected[0] || selected[1]) && (
+        <>
+          <StyledTypography variant="h6">
+            Fechado! O total ficou em <strong>R$ {totalPrice}</strong>. Agora é só confirmar:
+          </StyledTypography>
+          <Button onClick={bookTicket} disabled={loading}>
+            RESERVAR INGRESSO
+          </Button>
+        </>
+      )}
+    </Container>
   );
 }
 
-const StyledPresencialChoice = styled.div`
-    margin-top: 44px;
-  > p {
-    font-family: 'Roboto';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 20px;
-    line-height: 23px;
-    color: #8e8e8e;
-    margin-bottom: 17px;
-  }
+const StyledTypography = styled(Typography)`
+  margin-bottom: 20px !important;
+  color: #8e8e8e;
 `;
 
-const CenterHotelChoice = styled.div`
-  display: flex;
-`;
-
-const WithHotelBox = styled.div`
-  width: 145px;
-  height: 145px;
-  border: 1px solid #cecece;
-  border-radius: 20px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin-right: 24px;
-
-  > h2 {
-    font-family: 'Roboto';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 16px;
-    line-height: 19px;
-    text-align: center;
-    color: #454545;
-  }
-
-  > p {
-    font-family: 'Roboto';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 16px;
-    text-align: center;
-    color: #898989;
-  }
-`;
-
-const NoHotelBox = styled.div`
-  width: 145px;
-  height: 145px;
-  border: 1px solid #cecece;
-  border-radius: 20px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin-right: 24px;
-
-  > h2 {
-    font-family: 'Roboto';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 16px;
-    line-height: 19px;
-    text-align: center;
-    color: #454545;
-  }
-
-  > p {
-    font-family: 'Roboto';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 16px;
-    text-align: center;
-    color: #898989;
-  }
+const Container = styled.div`
+  margin-top: 44px;
 `;
