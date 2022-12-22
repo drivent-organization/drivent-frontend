@@ -1,80 +1,25 @@
 import styled from 'styled-components';
-import useToken from '../../hooks/useToken';
-import { postTicket, getTicketType } from '../../services/ticketApi';
-import { toast } from 'react-toastify';
-import { useState, useEffect } from 'react';
+import { Typography } from '@material-ui/core';
+import Button from '../Form/Button';
 
-export default function OnlineChoice() {
-  const [ticketTypes, setTicketTypes] = useState();
-  const token = useToken();
-
-  useEffect(() => {
-    const onlineTicketTypeId = async() => {
-      try {
-        const ticketTypeInfo = await getTicketType(token);
-        setTicketTypes(ticketTypeInfo);
-      } catch (error) {}
-    };
-    onlineTicketTypeId();
-  }, []);
-
-  async function ReservarIngressoOnline(e) {
-    e.preventDefault();
-
-    const onlineTicketTypeId = ticketTypes.find(({ price }) => price === 100);
-
-    const ticketTypeId = Number(onlineTicketTypeId.id);
-    try {
-      await postTicket(ticketTypeId, token);
-      toast('Ticket Reservado com sucesso!');
-    } catch (error) {
-      toast('Ops! Não foi possível reservar o ingresso.');
-    }
-  }
-
+export default function OnlineChoice({ bookTicket, loading }) {
   return (
-    <StyledOnlineChoice>
-      <p>
+    <Container>
+      <StyledTypography variant="h6">
         Fechado! O total ficou em <strong>R$ 100</strong>. Agora é só confirmar:
-      </p>
-      <div>
-        <p onClick={ReservarIngressoOnline}>RESERVAR INGRESSO</p>
-      </div>
-    </StyledOnlineChoice>
+      </StyledTypography>
+      <Button onClick={bookTicket} disabled={loading}>
+        RESERVAR INGRESSO
+      </Button>
+    </Container>
   );
 }
 
-const StyledOnlineChoice = styled.div`
+const StyledTypography = styled(Typography)`
+  margin-bottom: 20px !important;
+  color: #8e8e8e;
+`;
+
+const Container = styled.div`
   margin-top: 44px;
-
-  > p {
-    font-family: 'Roboto';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 20px;
-    line-height: 23px;
-    color: #8e8e8e;
-    margin-bottom: 17px;
-  }
-
-  > div {
-    width: 162px;
-    height: 37px;
-    background: #e0e0e0;
-    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.25);
-    border-radius: 4px;
-    display: flex;
-    justify-content: center;
-
-    > p {
-      font-family: 'Roboto';
-      font-style: normal;
-      font-weight: 400;
-      font-size: 14px;
-      line-height: 16px;
-      color: #000000;
-      margin-top: 11px;
-      margin-bottom: 10px;
-    }
-  }
 `;

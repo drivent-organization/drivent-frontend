@@ -1,38 +1,17 @@
 import styled from 'styled-components';
 import Typography from '@material-ui/core/Typography';
-import useToken from '../../../hooks/useToken';
-import { getHotelsData } from '../../../services/hotelApi';
-import { useState, useEffect } from 'react';
 import HotelDatas from '../../../components/HotelDatas';
+import UnavailableHotel from '../../../components/HotelDatas/UnavailableHotel';
+import useHotels from '../../../hooks/api/useHotels';
 
 export default function Hotel() {
-  const token = useToken();
-  const [hotelMessage, setHotelMessage] = useState('');
-  const [hotels, setHotels] = useState([]);
-
-  function loadHotelDatas() {
-    const promise = getHotelsData(token);
-    promise.then((answer) => {
-      setHotels(answer.data);
-    });
-    promise.catch((answer) => {
-      if (answer.response.status === 402 || answer.response.status === 404) {
-        setHotelMessage('Você precisa ter confirmado pagamento antes de fazer a escolha de hospedagem');
-      }
-      if (answer.response.status === 401) {
-        setHotelMessage('Sua modalidade de ingresso não inclui hospedagem. Prossiga para a escolha de atividades');
-      }
-    });
-  }
-
-  useEffect(() => {
-    loadHotelDatas();
-  }, []);
+  const { hotels, hotelsError } = useHotels();
 
   return (
     <>
       <StyledTypography variant="h4">Escolha de hotel e quarto</StyledTypography>
-      <HotelDatas hotelMessage={hotelMessage} hotels={hotels} />
+      {hotelsError && <UnavailableHotel error={hotelsError} />}
+      {hotels && <HotelDatas hotels={hotels} />}
     </>
   );
 }

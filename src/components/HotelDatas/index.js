@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import Typography from '@material-ui/core/Typography';
 import ChooseRoom from './ChooseRoom';
 import useLocalStorage from '../../hooks/useLocalStorage';
 import ChooseHotel from './ChooseHotel';
@@ -21,24 +20,18 @@ export default function HotelDatas({ hotelMessage, hotels }) {
   return (
     <>
       {!isBooked && (
-        <Container >
-          {hotels.length === 0 ? (
-            <HotelMessage variant="h6" color="textSecondary">
-              {hotelMessage}
-            </HotelMessage>
-          ) : (
-            hotels.map((hotel, index) => (
-              <ChooseHotel
-                hotel={hotel}
-                key={index}
-                setReqInfo={setReqInfo}
-                setShowRooms={setShowRooms}
-                setHotelSelected={setHotelSelected}
-                hotelSelected={hotelSelected}
-                currIndex={index}
-              />
-            ))
-          )}
+        <Container>
+          {hotels.map((hotel, index) => (
+            <ChooseHotel
+              hotel={hotel}
+              key={index}
+              setReqInfo={setReqInfo}
+              setShowRooms={setShowRooms}
+              setHotelSelected={setHotelSelected}
+              hotelSelected={hotelSelected}
+              currIndex={index}
+            />
+          ))}
         </Container>
       )}
 
@@ -47,14 +40,6 @@ export default function HotelDatas({ hotelMessage, hotels }) {
     </>
   );
 }
-
-const HotelMessage = styled(Typography)`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 70%;
-  word-wrap: break-word;
-`;
 
 const Container = styled.div`
   display: flex;

@@ -18,7 +18,7 @@ export async function getHotelWithRooms(hotelId, token) {
   return response.data;
 }
 
-export async function upsertBooking( data, token ) {
+export async function upsertBooking(data, token) {
   const body = { roomId: data.roomId };
   const headers = {
     headers: {
@@ -32,6 +32,17 @@ export async function upsertBooking( data, token ) {
   } else {
     response = await api.put(`/booking/${data.bookingId}`, body, headers);
   }
+
+  return response.data;
+}
+
+export async function getBooking(token) {
+  //TODO
+  const response = await api.get('/booking', {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
 
   return response.data;
 }
