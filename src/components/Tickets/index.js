@@ -7,11 +7,11 @@ import PresencialChoice from './PresencialChoice';
 import { Content, StyledTypography, Box } from './TicketBoxWrapper';
 import { Typography } from '@material-ui/core';
 import { toast } from 'react-toastify';
-import useTicket from '../../hooks/api/useTicket';
+import useSaveTicket from '../../hooks/api/useSaveTicket';
 
 export default function Tickets({ setHasTicket }) {
   const { ticketType, ticketTypeLoading } = useTicketType();
-  const { createTicket, ticketLoading } = useTicket();
+  const { createTicket, ticketLoading } = useSaveTicket();
 
   const [selected, setSelected] = useState([false, false]);
   const [ticketTypeId, setTicketTypeId] = useState(0);
@@ -48,7 +48,7 @@ export default function Tickets({ setHasTicket }) {
 
     try {
       const ticketData = await createTicket({ ticketTypeId });
-      setHasTicket(ticketData);
+      setHasTicket(true);
       toast('Ingresso reservado com sucesso!');
     } catch (err) {
       toast('Não foi possível reservar o ingresso!');
