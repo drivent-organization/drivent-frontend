@@ -10,10 +10,8 @@ import { DisplayFlex } from './DisplayFlex';
 import { useState } from 'react';
 import useSavePayment from '../../hooks/api/useSavePayment';
 import { toast } from 'react-toastify';
-import { useNavigate } from 'react-router-dom';
 
-export default function PaymentForm({ ticketId }) {
-  const navigate = useNavigate();
+export default function PaymentForm({ ticketId, setIsPaid }) {
   const [payment, setPayment] = useState({
     cvc: '',
     expiry: '',
@@ -79,10 +77,9 @@ export default function PaymentForm({ ticketId }) {
         number: '',
       });
       toast('Informações salvas com sucesso!');
-      navigate('/dashboard/payment');
+      setIsPaid(true);
     } catch (err) {
       toast('Não foi possível salvar suas informações!');
-      navigate('/dashboard/payment');
     }
   }
 
