@@ -4,8 +4,8 @@ import { ChoosenTicketStyle } from './ChoosenTicketStyle';
 import PaymentConfirmation from './PaymentConfirmation';
 import PaymentForm from './PaymentForm';
 
-export default function ChoosenTicket({ ticketData }) {
-  const { ticketPrice, includesHotel, isRemote, ticketId, status } = ticketData;
+export default function ChoosenTicket({ ticketData, isPaid, setIsPaid }) {
+  const { ticketPrice, includesHotel, isRemote, ticketId } = ticketData;
 
   return (
     <>
@@ -23,7 +23,7 @@ export default function ChoosenTicket({ ticketData }) {
       <StyledTypography variant="h6" color="textSecondary">
         Pagamento
       </StyledTypography>
-      {status === 'PAID' ? <PaymentConfirmation /> : <PaymentForm ticketId={ticketId} />}
+      {isPaid ? <PaymentConfirmation /> : <PaymentForm ticketId={ticketId} setStatusTicket={setIsPaid} />}
     </>
   );
 }

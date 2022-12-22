@@ -12,7 +12,7 @@ import useSavePayment from '../../hooks/api/useSavePayment';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 
-export default function PaymentForm({ ticketId }) {
+export default function PaymentForm({ ticketId, setIsPaid }) {
   const navigate = useNavigate();
   const [payment, setPayment] = useState({
     cvc: '',
@@ -79,6 +79,7 @@ export default function PaymentForm({ ticketId }) {
         number: '',
       });
       toast('Informações salvas com sucesso!');
+      setIsPaid(true);
       navigate('/dashboard/payment');
     } catch (err) {
       toast('Não foi possível salvar suas informações!');

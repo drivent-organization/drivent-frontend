@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import ChoosenTicket from './ChoosenTicket';
 
-export default function FinishPaymentScreen({ ticket }) {
+export default function FinishPaymentScreen({ ticket, isPaid, setIsPaid }) {
   const [ticketData, setTicketData] = useState({});
 
   useEffect(() => {
@@ -17,5 +17,5 @@ export default function FinishPaymentScreen({ ticket }) {
     }
   }, [ticket]);
 
-  return <ChoosenTicket ticketData={ticketData} />;
+  return <ChoosenTicket ticketData={ticketData} isPaid={isPaid} setIsPaid={setIsPaid} />;
 }
