@@ -26,13 +26,9 @@ export default function Payment() {
   return (
     <>
       <StyledTypography variant="h4">Ingresso e pagamento</StyledTypography>
-      {enrollmentError ? (
-        <UnavailablePayment />
-      ) : !hasTicket ? (
-        <Tickets setHasTicket={setHasTicket} />
-      ) : (
-        <FinishPayment ticket={hasTicket} isPaid={isPaid} setIsPaid={setIsPaid}/>
-      )}
+      {enrollmentError && <UnavailablePayment />}
+      {!hasTicket && !enrollmentError && <Tickets setHasTicket={setHasTicket} />}
+      {hasTicket && !enrollmentError && <FinishPayment ticket={hasTicket} isPaid={isPaid} setIsPaid={setIsPaid} />}
     </>
   );
 }
