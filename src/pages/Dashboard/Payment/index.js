@@ -5,14 +5,14 @@ import FinishPayment from '../../../components/FinishPayment';
 import Tickets from '../../../components/Tickets';
 import useEnrollment from '../../../hooks/api/useEnrollment';
 import useLocalStorage from '../../../hooks/useLocalStorage';
-import useGetTicket from '../../../hooks/api/useGetTicket';
+import useTicket from '../../../hooks/api/useTicket';
 import { useEffect } from 'react';
 
 export default function Payment() {
   const { enrollmentError } = useEnrollment();
   const [hasTicket, setHasTicket] = useLocalStorage('ticketData', null);
   const [isPaid, setIsPaid] = useLocalStorage('isPaid', false);
-  const { ticket } = useGetTicket();
+  const { ticket } = useTicket();
 
   useEffect(() => {
     if (ticket) {
