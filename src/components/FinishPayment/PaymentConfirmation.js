@@ -4,8 +4,9 @@ import { AiFillCheckCircle } from 'react-icons/ai';
 export default function PaymentConfirmation() {
   return (
     <Confirmation>
-      <AiFillCheckCircle size="15%" color="#36B853" />
-
+      <span>
+        <AiFillCheckCircle color="#36B853" />
+      </span>
       <Display>
         <StyledTitle variant="subtitle1" color="textPrimary">
           Pagamento confirmado!
@@ -19,8 +20,8 @@ export default function PaymentConfirmation() {
 }
 
 const StyledTitle = styled(Typography)`
-  
   font-weight: bold !important;
+  padding-bottom: 10px;
 `;
 
 const StyledSubTitle = styled(Typography)`
@@ -33,8 +34,14 @@ const Display = styled.div`
 `;
 
 const Confirmation = styled.div`
-  width: 50%;
+  width: 80%;
   display: flex;
   align-items: center;
-  justify-content: space-around;
+
+  > span {
+    display: grid;
+    place-items: center;
+    font-size: 50px;
+    margin-right: 15px;
+  }
 `;
