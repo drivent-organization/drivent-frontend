@@ -13,6 +13,7 @@ import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 
 export default function PaymentForm({ ticketId, setIsPaid }) {
+  console.log('🚀 passa aqui por favor meu jesus ~ file: PaymentForm.js:16 ~ PaymentForm ~ setIsPaid', setIsPaid);
   const navigate = useNavigate();
   const [payment, setPayment] = useState({
     cvc: '',
@@ -80,10 +81,9 @@ export default function PaymentForm({ ticketId, setIsPaid }) {
       });
       toast('Informações salvas com sucesso!');
       setIsPaid(true);
-      navigate('/dashboard/payment');
     } catch (err) {
+      console.log('🚀 passa aqui por favor meu jesus ~ file: PaymentForm.js:84 ~ payTicket ~ err', err);
       toast('Não foi possível salvar suas informações!');
-      navigate('/dashboard/payment');
     }
   }
 

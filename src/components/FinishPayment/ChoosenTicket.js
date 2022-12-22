@@ -23,7 +23,7 @@ export default function ChoosenTicket({ ticketData, isPaid, setIsPaid }) {
       <StyledTypography variant="h6" color="textSecondary">
         Pagamento
       </StyledTypography>
-      {isPaid ? <PaymentConfirmation /> : <PaymentForm ticketId={ticketId} setStatusTicket={setIsPaid} />}
+      {isPaid ? <PaymentConfirmation /> : <PaymentForm ticketId={ticketId} setIsPaid={setIsPaid} />}
     </>
   );
 }
