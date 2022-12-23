@@ -4,14 +4,17 @@ import UnavailablePayment from '../../../components/FinishPayment/UnavailablePay
 import FinishPayment from '../../../components/FinishPayment';
 import Tickets from '../../../components/Tickets';
 import useEnrollment from '../../../hooks/api/useEnrollment';
-import useLocalStorage from '../../../hooks/useLocalStorage';
+//import useLocalStorage from '../../../hooks/useLocalStorage';
 import useTicket from '../../../hooks/api/useTicket';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function Payment() {
   const { enrollmentError } = useEnrollment();
-  const [hasTicket, setHasTicket] = useLocalStorage('ticketData', null);
-  const [isPaid, setIsPaid] = useLocalStorage('isPaid', false);
+  //const [hasTicket, setHasTicket] = useLocalStorage('ticketData', null);
+
+  //const [isPaid, setIsPaid] = useLocalStorage('isPaid', false);
+  const [hasTicket, setHasTicket] = useState();
+  const [isPaid, setIsPaid] = useState(false);
   const { ticket } = useTicket();
 
   useEffect(() => {

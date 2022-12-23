@@ -21,6 +21,7 @@ export default function ChooseRoom({ setIsBooked, reqInfo, setShowRooms }) {
     getRooms();
 
     const states = new Array(hotelWithRooms?.Rooms.length).fill(false);
+
     setRoomState(states);
   }, [reqInfo.hotelId]);
 
