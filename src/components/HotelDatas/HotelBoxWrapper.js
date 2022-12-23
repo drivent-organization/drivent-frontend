@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const HotelBox = styled.div`
   width: 200px;
   height: 264px;
-  background-color: ${({ booking }) => (booking ? '#FFEED2' : '#ebebeb')};
+  background-color: #ebebeb;
   border-radius: 10px;
   margin: 0 20px 50px 0px;
   padding: 15px;
@@ -19,6 +19,14 @@ export const HotelBox = styled.div`
     margin-bottom: 5px;
     object-fit: cover;
   }
+
+  ${({ booking, isSelected }) => {
+    if (booking || isSelected) {
+      return `
+       background-color: #FFEED2;
+      `;
+    }
+  }}
 `;
 
 export const HotelName = styled.h5`

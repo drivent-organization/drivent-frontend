@@ -1,11 +1,7 @@
 import { useEffect, useState } from 'react';
-import UnavailablePayment from './UnavailablePayment';
-import useTicket from '../../hooks/api/useTicket';
 import ChoosenTicket from './ChoosenTicket';
 
-export default function FinishPaymentScreen() {
-  const { ticket } = useTicket();
-
+export default function FinishPaymentScreen({ ticket }) {
   const [ticketData, setTicketData] = useState({});
 
   useEffect(() => {
@@ -21,5 +17,5 @@ export default function FinishPaymentScreen() {
     }
   }, [ticket]);
 
-  return <>{ticketData.length === 0 ? <UnavailablePayment /> : <ChoosenTicket ticketData={ticketData} />}</>;
+  return <ChoosenTicket ticketData={ticketData} />;
 }
