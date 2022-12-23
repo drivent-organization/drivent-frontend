@@ -27,14 +27,22 @@ export default function PresencialChoice({ ticketInfo, setTicketTypeId, bookTick
     <Container>
       <StyledTypography variant="h6">Primeiro, escolha sua modalidade de ingresso</StyledTypography>
       <Content withHotel={true}>
-        {ticketInfo.map((ticket) =>
+        {ticketInfo.map((ticket, index) =>
           ticket.includesHotel === true ? (
-            <Box onClick={() => handleClick(ticket.includesHotel, ticket.id, ticket.price)} selected={selected[0]}>
+            <Box
+              key={index}
+              onClick={() => handleClick(ticket.includesHotel, ticket.id, ticket.price)}
+              selected={selected[0]}
+            >
               <h2>Com Hotel</h2>
               <p>+ R$ 350</p>
             </Box>
           ) : (
-            <Box onClick={() => handleClick(ticket.includesHotel, ticket.id, ticket.price)} selected={selected[1]}>
+            <Box
+              key={index}
+              onClick={() => handleClick(ticket.includesHotel, ticket.id, ticket.price)}
+              selected={selected[1]}
+            >
               <h2>Sem Hotel</h2>
               <p>+ R$ 0</p>
             </Box>
