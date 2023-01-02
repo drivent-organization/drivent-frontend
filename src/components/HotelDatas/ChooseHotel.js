@@ -18,10 +18,9 @@ export default function ChooseHotel({ hotel, setReqInfo, setShowRooms, setHotelS
 
   function handleClick() {
     const prevSelectedIndex = hotelSelected.findIndex((state) => state === true);
+
     if (prevSelectedIndex !== -1) hotelSelected[prevSelectedIndex] = false;
-
     hotelSelected[currIndex] = true;
-
     setHotelSelected([...hotelSelected]);
     setReqInfo({
       hotelId: hotel.id,
