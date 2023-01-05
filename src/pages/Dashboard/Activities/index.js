@@ -1,7 +1,7 @@
 import useTicket from '../../../hooks/api/useTicket';
 import { useEffect, useState } from 'react';
 import ActivityScreen from '../../../components/ActivitiesDatas/ActivityScreen';
-import RemoteTicketAlert from '../../../components/ActivitiesDatas/ActivityScreen';
+import RemoteTicketAlert from '../../../components/ActivitiesDatas/RemoteTicketAlert';
 
 export default function Activities() {
   const [isPaid, setIsPaid] = useState(false);
@@ -28,4 +28,3 @@ export default function Activities() {
     </>
   );
 }
-
