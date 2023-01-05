@@ -25,7 +25,7 @@ export default function PresencialChoice({ ticketInfo, setTicketTypeId, bookTick
 
   return (
     <Container>
-      <StyledTypography variant="h6">Primeiro, escolha sua modalidade de ingresso</StyledTypography>
+      <StyledTypography variant="h6">Ótimo! Agora, escolha sua modalidade de hospedagem</StyledTypography>
       <Content withHotel={true}>
         {ticketInfo.map((ticket, index) =>
           ticket.includesHotel === true ? (
