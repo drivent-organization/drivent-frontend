@@ -1,16 +1,30 @@
-import styled from 'styled-components';
-import Typography from '@material-ui/core/Typography';
-import ActivitiesDatas from '../../../components/ActivitiesDatas';
+import useTicket from '../../../hooks/api/useTicket';
+import { useEffect, useState } from 'react';
+import ActivityScreen from '../../../components/ActivitiesDatas/ActivityScreen';
+import RemoteTicketAlert from '../../../components/ActivitiesDatas/RemoteTicketAlert';
 
 export default function Activities() {
+  const [isPaid, setIsPaid] = useState(false);
+  const [isRemote, setIsRemote] = useState(false);
+  const [hasTicket, setHasTicket] = useState();
+  const { ticket } = useTicket();
+  useEffect(() => {
+    if (ticket) {
+      setHasTicket(ticket);
+      if (ticket.status === 'PAID') {
+        setIsPaid(true);
+      }
+
+      if (ticket.TicketType.isRemote) {
+        setIsRemote(true);
+      }
+    }
+  }, [ticket]);
+
   return (
     <>
-      <StyledTypography variant="h4">Escolha de atividades</StyledTypography>
-      <ActivitiesDatas />
+      {!isRemote && <ActivityScreen isPaid={isPaid} />}
+      {isPaid && isRemote && <RemoteTicketAlert />}
     </>
   );
 }
-
-const StyledTypography = styled(Typography)`
-  margin-bottom: 20px !important;
-`;
