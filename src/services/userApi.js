@@ -1,10 +1,9 @@
 import api from './api';
 
 export async function signUp({ email, password, type }) {
-  let param = '';
-  if (type !== 'form') param = type;
+  let oAuth = '';
+  if (type !== 'form') oAuth = type;
 
-  const response = await api.post(`/users/${param}`, { email, password });
+  const response = await api.post(`/users/${oAuth}`, { email, password });
   return response.data;
 }
-//

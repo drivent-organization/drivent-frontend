@@ -52,7 +52,7 @@ export default function SignIn() {
   }
 
   useEffect(() => {
-    submitForm(null, 'github');
+    if (userGithub) submitForm(null, 'github');
   }, [userGithub]);
 
   return (
