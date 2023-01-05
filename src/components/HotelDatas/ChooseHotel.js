@@ -8,11 +8,11 @@ export default function ChooseHotel({ hotel, setReqInfo, setShowRooms, setHotelS
   const vacancies = calculateVacancies(hotelWithRooms);
   const accommodationType = nameAccommodationTypes(hotelWithRooms);
 
-  useEffect(() => {
-    async function getRooms() {
-      await getHotelWithRooms(hotel.id);
-    }
+  async function getRooms() {
+    await getHotelWithRooms(hotel.id);
+  }
 
+  useEffect(() => {
     getRooms();
   }, []);
 
@@ -20,6 +20,7 @@ export default function ChooseHotel({ hotel, setReqInfo, setShowRooms, setHotelS
     const prevSelectedIndex = hotelSelected.findIndex((state) => state === true);
 
     if (prevSelectedIndex !== -1) hotelSelected[prevSelectedIndex] = false;
+
     hotelSelected[currIndex] = true;
     setHotelSelected([...hotelSelected]);
     setReqInfo({

@@ -9,7 +9,7 @@ import { useEffect, useState } from 'react';
 
 export default function Payment() {
   const { enrollmentError } = useEnrollment();
-  const [hasTicket, setHasTicket] = useState();
+  const [hasTicket, setHasTicket] = useState(null);
   const [isPaid, setIsPaid] = useState(false);
   const { ticket } = useTicket();
 
