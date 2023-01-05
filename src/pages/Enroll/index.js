@@ -26,47 +26,36 @@ export default function Enroll() {
 
   const { eventInfo } = useContext(EventInfoContext);
 
-  async function submitForm(event) {
-    event.preventDefault();
-
-    if (password !== confirmPassword) {
+  async function submitForm(event, type) {
+    if (type === 'form' && password !== confirmPassword) {
       toast('As senhas devem ser iguais!');
-    } else {
-      try {
-        await signUp(email, password);
-        toast('Inscrito com sucesso! Por favor, faça login.');
-        navigate('/sign-in');
-      } catch (error) {
-        toast('Não foi possível fazer o cadastro!');
-      }
+      return;
     }
-  }
 
-  async function signupWithGithub() {
+    let body = {};
+    if (type === 'form') {
+      event.preventDefault();
+      body = { email, password, type };
+    } else {
+      body = { email: userGithub.email, type };
+    }
+
     try {
-      await signUp(userGithub.email, userGithub.uid);
+      await signUp(body);
       toast('Inscrito com sucesso! Por favor, faça login.');
       navigate('/sign-in');
     } catch (error) {
-      /* eslint-disable-next-line no-console */
-      console.log(error);
       toast('Não foi possível fazer o cadastro!');
     }
   }
 
   async function submitGithub(event) {
     event.preventDefault();
-
-    try {
-      await signInWithGithub();
-    } catch (error) {
-      /* eslint-disable-next-line no-console */
-      console.log(error);
-    }
+    signInWithGithub();
   }
 
   useEffect(() => {
-    if (userGithub) signupWithGithub();
+    submitForm(null, 'github');
   }, [userGithub]);
 
   return (
@@ -77,7 +66,7 @@ export default function Enroll() {
       </Row>
       <Row>
         <Label>Inscrição</Label>
-        <form onSubmit={submitForm}>
+        <form onSubmit={(e) => submitForm(e, 'form')}>
           <Input label="E-mail" type="text" fullWidth value={email} onChange={(e) => setEmail(e.target.value)} />
           <Input
             label="Senha"
@@ -101,7 +90,7 @@ export default function Enroll() {
           onClick={submitGithub}
           color="primary"
           fullWidth
-          disabled={loadingGithub || loadingSignUp}
+          disabled={loadingSignUp || loadingGithub}
           enroll="true"
         >
           Inscrever com Github

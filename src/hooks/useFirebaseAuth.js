@@ -12,15 +12,11 @@ export default function useFirebaseAuth() {
 
     try {
       const provider = new GithubAuthProvider();
-
       const res = await signInWithPopup(auth, provider);
-      if (!res) {
-        throw new Error('Não foi possível concluir a operação');
-      }
 
       const userData = {
         email: res.user.email,
-        uid: res.user.uid,
+        token: res.user.accessToken,
       };
 
       setUserGithub(userData);
