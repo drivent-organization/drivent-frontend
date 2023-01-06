@@ -55,7 +55,7 @@ export default function Enroll() {
   }
 
   useEffect(() => {
-    if (userGithub)   submitForm(null, 'github');
+    if (userGithub) submitForm(null, 'github');
   }, [userGithub]);
 
   return (
