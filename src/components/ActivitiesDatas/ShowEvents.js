@@ -2,8 +2,10 @@ import { Typography } from '@material-ui/core';
 import { IoEnterOutline } from 'react-icons/io5';
 import { IconContext } from 'react-icons/lib';
 import styled from 'styled-components';
-
-export default function ShowEvents() {
+import useActivities from '../../hooks/api/useActivities';
+export default function ShowEvents({ dateId }) {
+  const { activities, getActivitiesByDate } = useActivities();
+  
   return (
     <>
       <AuditoriumWrap>
@@ -23,13 +25,14 @@ export default function ShowEvents() {
           <ActivityBox>
             <SubtitleInfo>Minecraft: montando o pc ideal</SubtitleInfo>
             <TimeInfo>12:00 - 14:00</TimeInfo>
+
+            <DivisionLine></DivisionLine>
             <Icon>
               <IconContext.Provider value={{ color: '#078632', className: 'enter-icon' }}>
                 <IoEnterOutline />
               </IconContext.Provider>
+              <h6>27 vagas</h6>
             </Icon>
-
-            <DivisionLine></DivisionLine>
           </ActivityBox>
           <ActivityBox></ActivityBox>
         </AudtoriumBox>
@@ -86,6 +89,7 @@ const DivisionLine = styled.div`
   top: 12%;
   left: 75%;
   bottom: 12%;
+  margin-left: 5px;
 `;
 
 const SubtitleInfo = styled.h5`
@@ -100,16 +104,27 @@ const TimeInfo = styled.h6`
   font-weight: 400;
 `;
 
-//ARRUMAR A PROPORÇAO DO ICON
 const Icon = styled.div`
   display: flex;
+  flex-direction: column;
   justify-content: center;
+  align-items: center;
   position: absolute;
-  top: 12%;
-  left: 82%;
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: 25%;
+  min-width: 40px;
   .enter-icon {
     width: 25px;
     height: 25px;
     vertical-align: middle;
+  }
+
+  h6 {
+    font-size: 9px;
+    font-weight: 400;
+    color: #078632;
+    margin-top: 2px;
   }
 `;
