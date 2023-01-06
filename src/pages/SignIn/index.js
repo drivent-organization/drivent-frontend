@@ -27,11 +27,17 @@ export default function SignIn() {
 
   const navigate = useNavigate();
 
-  async function submitForm(event) {
-    event.preventDefault();
+  async function submitForm(event, type) {
+    let body = {};
+    if (type === 'form') {
+      event.preventDefault();
+      body = { email, password, type };
+    } else {
+      body = { email: userGithub.email, type };
+    }
 
     try {
-      const userData = await signIn(email, password);
+      const userData = await signIn(body);
       setUserData(userData);
       toast('Login realizado com sucesso!');
       navigate('/dashboard');
@@ -40,30 +46,13 @@ export default function SignIn() {
     }
   }
 
-  async function signinGithub() {
-    try {
-      const userData = await signIn(userGithub.email, userGithub.uid);
-      setUserData(userData);
-      toast('Login realizado com sucesso!');
-      navigate('/dashboard');
-    } catch (error) {
-      toast('Não foi possível fazer o login!');
-    }
-  }
-
   async function submitGithub(event) {
     event.preventDefault();
-
-    try {
-      await signInWithGithub();
-    } catch (error) {
-      /* eslint-disable-next-line no-console */
-      console.log(error);
-    }
+    signInWithGithub();
   }
 
   useEffect(() => {
-    if (userGithub) signinGithub();
+    if (userGithub) submitForm(null, 'github');
   }, [userGithub]);
 
   return (
@@ -74,7 +63,7 @@ export default function SignIn() {
       </Row>
       <Row>
         <Label>Entrar</Label>
-        <form onSubmit={submitForm}>
+        <form onSubmit={(e) => submitForm(e, 'form')}>
           <Input label="E-mail" type="text" fullWidth value={email} onChange={(e) => setEmail(e.target.value)} />
           <Input
             label="Senha"
@@ -87,7 +76,7 @@ export default function SignIn() {
             Entrar
           </Button>
         </form>
-        <Button onClick={submitGithub} color="primary" fullWidth disabled={loadingGithub || loadingSignIn}>
+        <Button onClick={submitGithub} color="primary" fullWidth disabled={loadingSignIn || loadingGithub}>
           Entrar com Github
         </Button>
       </Row>
