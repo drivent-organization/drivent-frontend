@@ -4,14 +4,15 @@ import { IconContext } from 'react-icons/lib';
 import styled from 'styled-components';
 
 export default function Activity({ activity }) {
-  const startsAt = Number(dayjs(activity.startsAt).format('HH')) + 3;
-  const endsAt = Number(dayjs(activity.endsAt).format('HH')) + 3;
-  const heighFactor = (startsAt - endsAt) * 100;
+  const startsAt = dayjs(activity.startsAt).format('HH:mm');
+  const endsAt = dayjs(activity.endsAt).format('HH:mm');
+  const heightFactor = (Number(endsAt.replace(':', '')) - Number(startsAt.replace(':', ''))) / 100;
+
   return (
     <>
-      <ActivityBox>
+      <ActivityBox heightFactor={heightFactor}>
         <SubtitleInfo>{activity.activityName}</SubtitleInfo>
-        <TimeInfo>{`${startsAt}:00 - ${endsAt}:00`}</TimeInfo>
+        <TimeInfo>{`${startsAt} - ${endsAt}`}</TimeInfo>
 
         <DivisionLine></DivisionLine>
         <Icon available={activity.vacancies}>
@@ -42,7 +43,7 @@ function SoldOffIcon() {
 const ActivityBox = styled.div`
   background-color: #f1f1f1;
   width: 100%;
-  height: 100px;
+  height: ${({ heightFactor }) => heightFactor * 80 + 'px'};
   margin-bottom: 20px;
   padding: 10px;
   border-radius: 5px;
@@ -86,6 +87,7 @@ const Icon = styled.div`
     width: 25px;
     height: 25px;
     vertical-align: middle;
+    cursor: ${({ available }) => (available ? 'pointer' : 'default')};
   }
 
   h6 {
