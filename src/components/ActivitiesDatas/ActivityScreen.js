@@ -3,11 +3,14 @@ import styled from 'styled-components';
 import PaymentRequirement from './PaymentRequirement';
 import ShowEvents from './ShowEvents';
 export default function ActivityScreen({ isPaid }) {
+  //DADO MOCKADO
+  const dateId = 2;
+
   return (
     <>
       <StyledTypography variant="h4">Ingresso de atividades</StyledTypography>
       {!isPaid && <PaymentRequirement />}
-      {isPaid && <ShowEvents />}
+      {isPaid && <ShowEvents dateId={dateId} />}
     </>
   );
 }
