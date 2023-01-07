@@ -6,7 +6,7 @@ import useHotels from '../../../hooks/api/useHotels';
 
 export default function Hotel() {
   const { hotels, hotelsError } = useHotels();
-  console.log(hotels);
+
   return (
     <>
       <StyledTypography variant="h4">Escolha de hotel e quarto</StyledTypography>

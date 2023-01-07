@@ -4,7 +4,7 @@ import PaymentRequirement from './PaymentRequirement';
 import ShowEvents from './ShowEvents';
 export default function ActivityScreen({ isPaid }) {
   //DADO MOCKADO
-  const dateId = 1;
+  const dateId = 2;
 
   return (
     <>
