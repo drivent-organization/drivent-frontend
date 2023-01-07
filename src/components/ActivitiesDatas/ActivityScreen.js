@@ -11,31 +11,30 @@ export default function ActivityScreen({ isPaid }) {
 
   return (
     <>
-      <StyledTypography variant="h4">Ingresso de atividades</StyledTypography>
+      {isPaid ? (
+        <>
+          {dateId === 0 && <StyledTypography variant="h6">Primeiro, filtre pelo dia do evento:</StyledTypography>}
 
-      {dateId === 0 && (
-        <StyledTypography detail variant="h6">
-          Primeiro, filtre pelo dia do evento:
-        </StyledTypography>
+          <DateBox>
+            {dates?.map((date) => (
+              <Date key={date.id} onClick={() => setDateId(date.id)} active={date.id === dateId ? true : false}>
+                {date.name}
+              </Date>
+            ))}
+          </DateBox>
+
+          {dateId !== 0 && <ShowEvents dateId={dateId} />}
+        </>
+      ) : (
+        <PaymentRequirement />
       )}
-
-      <DateBox>
-        {dates?.map((date) => (
-          <Date key={date.id} onClick={() => setDateId(date.id)} active={date.id === dateId ? true : false}>
-            {date.name}
-          </Date>
-        ))}
-      </DateBox>
-
-      {!isPaid && dateId !== 0 && <PaymentRequirement />}
-      {isPaid && dateId !== 0 && <ShowEvents dateId={dateId} />}
     </>
   );
 }
 
 const StyledTypography = styled(Typography)`
   margin-bottom: 20px !important;
-  color: ${({ detail }) => (detail ? '#8e8e8e' : 'initial')};
+  color: #8e8e8e;
 `;
 
 const DateBox = styled.div`
