@@ -6,11 +6,10 @@ import RemoteTicketAlert from '../../../components/ActivitiesDatas/RemoteTicketA
 export default function Activities() {
   const [isPaid, setIsPaid] = useState(false);
   const [isRemote, setIsRemote] = useState(false);
-  const [hasTicket, setHasTicket] = useState();
   const { ticket } = useTicket();
+
   useEffect(() => {
     if (ticket) {
-      setHasTicket(ticket);
       if (ticket.status === 'PAID') {
         setIsPaid(true);
       }

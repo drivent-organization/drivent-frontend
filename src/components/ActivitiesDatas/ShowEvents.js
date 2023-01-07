@@ -2,33 +2,34 @@ import { Typography } from '@material-ui/core';
 import { useEffect } from 'react';
 import styled from 'styled-components';
 import useActivities from '../../hooks/api/useActivities';
+import usePlaces from '../../hooks/api/usePlaces';
 import Activity from './Activity';
 
 export default function ShowEvents({ dateId }) {
   const { activities, getActivitiesByDate } = useActivities();
-  const auditoriums = ['Auditório Principal', 'Auditório Lateral', 'Sala de Workshop'];
+  const { places: auditorium } = usePlaces();
 
   async function getActivities() {
     await getActivitiesByDate(dateId);
   }
 
   useEffect(() => {
-    if (!activities) getActivities();
+    getActivities();
   }, [dateId]);
 
   return (
     <>
       <AuditoriumWrap>
-        {auditoriums.map((auditorium, index) => (
-          <AuditoriumName variant="h6" color="textSecondary">
-            {auditorium}
+        {auditorium?.map((auditorium) => (
+          <AuditoriumName key={auditorium.id} variant="h6" color="textSecondary">
+            {auditorium.name}
           </AuditoriumName>
         ))}
       </AuditoriumWrap>
 
       <AuditoriumContainer>
-        {auditoriums.map((auditorium, index) => (
-          <ActivitiesByAuditorium key={index} activities={activities} auditorium={auditorium} />
+        {auditorium?.map((auditorium) => (
+          <ActivitiesByAuditorium key={auditorium.id} activities={activities} auditorium={auditorium} />
         ))}
       </AuditoriumContainer>
     </>
@@ -36,12 +37,12 @@ export default function ShowEvents({ dateId }) {
 }
 
 function ActivitiesByAuditorium({ activities, auditorium }) {
-  const activitiesByAuditorium = activities?.filter((activity) => activity.placeName === auditorium);
+  const activitiesByAuditorium = activities?.filter((activity) => activity.placeName === auditorium.name);
 
   return (
     <AudtoriumBox>
       {activitiesByAuditorium?.map((activity) => (
-        <Activity activity={activity} />
+        <Activity key={activity.id} activity={activity} />
       ))}
     </AudtoriumBox>
   );
