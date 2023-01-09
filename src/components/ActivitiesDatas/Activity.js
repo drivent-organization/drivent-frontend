@@ -1,42 +1,50 @@
 import dayjs from 'dayjs';
-import { IoEnterOutline, IoCloseCircleOutline } from 'react-icons/io5';
+import { IoEnterOutline, IoCloseCircleOutline, IoCheckmarkCircleOutline } from 'react-icons/io5';
 import { IconContext } from 'react-icons/lib';
 import styled from 'styled-components';
 import useSaveActivities from '../../hooks/api/useSaveActivities';
 import { toast } from 'react-toastify';
 
-export default function Activity({ activity }) {
+export default function Activity({ activity, reload, setReload }) {
   const startsAtBrazil = activity.startsAt.slice(0, activity.startsAt.length - 1);
   const endsAtBrazil = activity.endsAt.slice(0, activity.endsAt.length - 1);
   const startsAt = dayjs(startsAtBrazil).format('HH:mm');
-
   const endsAt = dayjs(endsAtBrazil).format('HH:mm');
   const heightFactor = (Number(endsAt.replace(':', '')) - Number(startsAt.replace(':', ''))) / 100;
 
   return (
     <>
-      <ActivityBox heightFactor={heightFactor}>
+      <ActivityBox heightFactor={heightFactor} subscribed={activity.subscribed}>
         <SubtitleInfo>{activity.activityName}</SubtitleInfo>
         <TimeInfo>{`${startsAt} - ${endsAt}`}</TimeInfo>
 
         <DivisionLine></DivisionLine>
-        <Icon available={activity.vacancies}>
-          {activity.vacancies ? <SubscribeIcon activityId={activity.id} /> : <SoldOffIcon />}
-          <h6>{activity.vacancies ? activity.vacancies : 'Esgotado'}</h6>
+        <Icon vacancies={activity.vacancies} subscribed={activity.subscribed}>
+          {activity.vacancies !== 0 && !activity.subscribed && <SubscribeIcon activityId={activity.id} reload={reload} setReload={setReload} />}
+          {activity.vacancies !== 0 && activity.subscribed && <SubscribedIcon />}
+          {activity.vacancies === 0 && !activity.subscribed && <SoldOffIcon />}
+          {activity.vacancies === 0 && activity.subscribed && <SubscribedIcon />}
+          <h6>
+            {activity.vacancies !== 0 && !activity.subscribed && <>{activity.vacancies}</>}
+            {activity.vacancies !== 0 && activity.subscribed && <>{'Inscrito'}</>}
+            {activity.vacancies === 0 && !activity.subscribed && <>{'Esgotado'}</>}
+            {activity.vacancies === 0 && activity.subscribed && <>{'Inscrito'}</>}
+          </h6>
         </Icon>
       </ActivityBox>
     </>
   );
 }
 
-function SubscribeIcon({ activityId }) {
+function SubscribeIcon({ activityId, reload, setReload }) {
   const { saveActivityLoading, saveActivity } = useSaveActivities();
-  async function BookActivity(activityId) {
-    const body = { activityId: activityId };
+
+  async function BookActivity() {
+    if (saveActivityLoading) return;
 
     try {
-      await saveActivity(body);
-
+      await saveActivity({ activityId });
+      setReload(!reload);
       toast('Informações salvas com sucesso!');
     } catch (err) {
       toast('Não foi possível salvar suas informações!');
@@ -45,7 +53,7 @@ function SubscribeIcon({ activityId }) {
 
   return (
     <IconContext.Provider value={{ color: '#078632', className: 'enter-icon' }}>
-      <IoEnterOutline onClick={() => BookActivity(activityId)} />
+      <IoEnterOutline onClick={BookActivity} />
     </IconContext.Provider>
   );
 }
@@ -58,8 +66,16 @@ function SoldOffIcon() {
   );
 }
 
+function SubscribedIcon() {
+  return (
+    <IconContext.Provider value={{ color: '#078632', className: 'enter-icon' }}>
+      <IoCheckmarkCircleOutline />
+    </IconContext.Provider>
+  );
+}
+
 const ActivityBox = styled.div`
-  background-color: #f1f1f1;
+  background-color: ${({ subscribed }) => (subscribed ? '#D0FFDB' : '#f1f1f1')};
   width: 100%;
   height: ${({ heightFactor }) => heightFactor * 80 + 'px'};
   margin-bottom: 20px;
@@ -102,18 +118,26 @@ const Icon = styled.div`
   width: 25%;
   min-width: 40px;
 
-  .enter-icon {
-    width: 25px;
-    height: 25px;
-    vertical-align: middle;
+.enter-icon {
+  width: 25px;
+  height: 25px;
+  vertical-align: middle;
 
-    cursor: ${({ available }) => (available ? 'pointer' : 'default')};
-  }
+  cursor: ${({ vacancies, subscribed }) => {
+    if (vacancies === 0) return 'default';
+    if (subscribed) return 'default';
+    return 'pointer';
+  }};
+}
 
-  h6 {
-    font-size: 9px;
-    font-weight: 400;
-    color: ${({ available }) => (available ? '#078632' : '#CC6666')};
-    margin-top: 2px;
-  }
+h6 {
+  font-size: 9px;
+  font-weight: 400;
+  color: ${({ vacancies, subscribed }) => {
+    if (subscribed) return '#078632';
+    if (vacancies === 0) return '#CC6666';
+    return '#078632';
+  }};
+  margin-top: 2px;
+}
 `;

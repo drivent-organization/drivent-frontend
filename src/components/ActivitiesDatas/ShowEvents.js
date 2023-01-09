@@ -1,5 +1,5 @@
 import { Typography } from '@material-ui/core';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import useActivities from '../../hooks/api/useActivities';
 import usePlaces from '../../hooks/api/usePlaces';
@@ -8,14 +8,15 @@ import Activity from './Activity';
 export default function ShowEvents({ dateId }) {
   const { activities, getActivitiesByDate } = useActivities();
   const { places: auditorium } = usePlaces();
-
+  const [reload, setReload] = useState(false);
+  
   async function getActivities() {
     await getActivitiesByDate(dateId);
   }
 
   useEffect(() => {
     getActivities();
-  }, [dateId]);
+  }, [dateId, reload]);
 
   return (
     <>
@@ -29,20 +30,20 @@ export default function ShowEvents({ dateId }) {
 
       <AuditoriumContainer>
         {auditorium?.map((auditorium) => (
-          <ActivitiesByAuditorium key={auditorium.id} activities={activities} auditorium={auditorium} />
+          <ActivitiesByAuditorium key={auditorium.id} activities={activities} auditorium={auditorium} reload={reload} setReload={setReload}/>
         ))}
       </AuditoriumContainer>
     </>
   );
 }
 
-function ActivitiesByAuditorium({ activities, auditorium }) {
+function ActivitiesByAuditorium({ activities, auditorium, reload, setReload }) {
   const activitiesByAuditorium = activities?.filter((activity) => activity.placeName === auditorium.name);
 
   return (
     <AudtoriumBox>
       {activitiesByAuditorium?.map((activity) => (
-        <Activity key={activity.id} activity={activity} />
+        <Activity key={activity.id} activity={activity} reload={reload} setReload={setReload} />
       ))}
     </AudtoriumBox>
   );
@@ -64,7 +65,6 @@ const AudtoriumBox = styled.div`
   :last-child {
     border-right: 1px solid #d7d7d7;
   }
-  word-break: break-word;
 `;
 
 const AuditoriumWrap = styled.div`
