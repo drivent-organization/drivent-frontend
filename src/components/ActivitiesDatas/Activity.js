@@ -4,13 +4,8 @@ import { IconContext } from 'react-icons/lib';
 import styled from 'styled-components';
 import useSaveActivities from '../../hooks/api/useSaveActivities';
 import { toast } from 'react-toastify';
-const utc = require('dayjs/plugin/utc');
-const timezone = require('dayjs/plugin/timezone'); // dependent on utc plugin
 
-dayjs.extend(utc);
-dayjs.extend(timezone);
 export default function Activity({ activity }) {
-  // const tz = 'America/Sao_Paulo';
   const startsAtBrazil = activity.startsAt.slice(0, activity.startsAt.length - 1);
   const endsAtBrazil = activity.endsAt.slice(0, activity.endsAt.length - 1);
   const startsAt = dayjs(startsAtBrazil).format('HH:mm');
