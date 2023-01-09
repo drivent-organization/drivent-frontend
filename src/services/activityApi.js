@@ -29,3 +29,13 @@ export async function getDates(token) {
 
   return response.data;
 }
+
+export async function save(body, token) {
+  const response = await api.post('/activities/process', body, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  return response.data;
+}
