@@ -4,20 +4,21 @@ import { useEffect, useState } from 'react';
 import Button from '../Form/Button';
 import useRooms from '../../hooks/api/useRooms';
 import { toast } from 'react-toastify';
-import useBooking from '../../hooks/api/useBooking';
+import useSaveBooking from '../../hooks/api/useSaveBooking';
 import Rooms from './Rooms';
 
 export default function ChooseRoom({ setIsBooked, reqInfo, setShowRooms }) {
   const { hotelWithRooms, getHotelWithRooms } = useRooms();
-  const { upsertBooking, bookingLoading } = useBooking();
+  const { upsertBooking, bookingLoading } = useSaveBooking();
 
   const [roomId, setRoomId] = useState(0);
   const [roomState, setRoomState] = useState([]);
 
+  async function getRooms() {
+    await getHotelWithRooms(reqInfo.hotelId);
+  }
+
   useEffect(() => {
-    async function getRooms() {
-      await getHotelWithRooms(reqInfo.hotelId);
-    }
     getRooms();
 
     const states = new Array(hotelWithRooms?.Rooms.length).fill(false);

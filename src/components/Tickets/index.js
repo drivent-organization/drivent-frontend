@@ -47,7 +47,7 @@ export default function Tickets({ setHasTicket }) {
     event.preventDefault();
 
     try {
-      const ticketData = await createTicket({ ticketTypeId });
+      await createTicket({ ticketTypeId });
       setHasTicket(true);
       toast('Ingresso reservado com sucesso!');
     } catch (err) {

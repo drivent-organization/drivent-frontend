@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 
@@ -13,30 +13,47 @@ import EventInfoContext from '../../contexts/EventInfoContext';
 import UserContext from '../../contexts/UserContext';
 
 import useSignIn from '../../hooks/api/useSignIn';
+import useFirebaseAuth from '../../hooks/useFirebaseAuth';
 
 export default function SignIn() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const { loadingSignIn, signIn } = useSignIn();
+  const { userGithub, signInWithGithub, loadingGithub } = useFirebaseAuth();
 
   const { eventInfo } = useContext(EventInfoContext);
   const { setUserData } = useContext(UserContext);
-  
+
   const navigate = useNavigate();
-  
-  async function submit(event) {
-    event.preventDefault();
+
+  async function submitForm(event, type) {
+    let body = {};
+    if (type === 'form') {
+      event.preventDefault();
+      body = { email, password, type };
+    } else {
+      body = { email: userGithub.email, type };
+    }
 
     try {
-      const userData = await signIn(email, password);
+      const userData = await signIn(body);
       setUserData(userData);
       toast('Login realizado com sucesso!');
       navigate('/dashboard');
     } catch (err) {
       toast('Não foi possível fazer o login!');
     }
-  } 
+  }
+
+  async function submitGithub(event) {
+    event.preventDefault();
+    signInWithGithub();
+  }
+
+  useEffect(() => {
+    if (userGithub) submitForm(null, 'github');
+  }, [userGithub]);
 
   return (
     <AuthLayout background={eventInfo.backgroundImageUrl}>
@@ -46,11 +63,22 @@ export default function SignIn() {
       </Row>
       <Row>
         <Label>Entrar</Label>
-        <form onSubmit={submit}>
-          <Input label="E-mail" type="text" fullWidth value={email} onChange={e => setEmail(e.target.value)} />
-          <Input label="Senha" type="password" fullWidth value={password} onChange={e => setPassword(e.target.value)} />
-          <Button type="submit" color="primary" fullWidth disabled={loadingSignIn}>Entrar</Button>
+        <form onSubmit={(e) => submitForm(e, 'form')}>
+          <Input label="E-mail" type="text" fullWidth value={email} onChange={(e) => setEmail(e.target.value)} />
+          <Input
+            label="Senha"
+            type="password"
+            fullWidth
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <Button type="submit" color="primary" fullWidth disabled={loadingSignIn || loadingGithub}>
+            Entrar
+          </Button>
         </form>
+        <Button onClick={submitGithub} color="primary" fullWidth disabled={loadingSignIn || loadingGithub}>
+          Entrar com Github
+        </Button>
       </Row>
       <Row>
         <Link to="/enroll">Não possui login? Inscreva-se</Link>
