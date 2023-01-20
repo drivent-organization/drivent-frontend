@@ -19,7 +19,7 @@ export default function ChooseRoom({ setIsBooked, reqInfo, setShowRooms }) {
   }
 
   useEffect(() => {
-    if (!hotelWithRooms) getRooms();
+    getRooms();
 
     const states = new Array(hotelWithRooms?.Rooms.length).fill(false);
     setRoomState(states);

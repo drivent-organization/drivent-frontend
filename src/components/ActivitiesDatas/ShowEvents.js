@@ -9,7 +9,7 @@ export default function ShowEvents({ dateId }) {
   const { activities, getActivitiesByDate } = useActivities();
   const { places: auditorium } = usePlaces();
   const [reload, setReload] = useState(false);
-  
+
   async function getActivities() {
     await getActivitiesByDate(dateId);
   }
@@ -30,7 +30,13 @@ export default function ShowEvents({ dateId }) {
 
       <AuditoriumContainer>
         {auditorium?.map((auditorium) => (
-          <ActivitiesByAuditorium key={auditorium.id} activities={activities} auditorium={auditorium} reload={reload} setReload={setReload}/>
+          <ActivitiesByAuditorium
+            key={auditorium.id}
+            activities={activities}
+            auditorium={auditorium}
+            reload={reload}
+            setReload={setReload}
+          />
         ))}
       </AuditoriumContainer>
     </>
